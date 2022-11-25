@@ -1,4 +1,5 @@
 import 'package:isar/isar.dart';
+import 'package:school_planner/models/assessment.dart';
 import 'package:school_planner/models/course.dart';
 
 
@@ -23,6 +24,13 @@ class DbController {
     });
   }
 
+  void saveAssessment(Assessment newAssessment) async {
+    final db = await dataBase;
+    db.writeTxn(() async {
+      await db.assessments.put(newAssessment);
+    });
+  }
+
 
   // * * * Read * * *
 
@@ -30,7 +38,7 @@ class DbController {
   Future<Course> getCourse(int index) async {
     final db = await dataBase;
 
-    final course = await db.courses.get(1);
+    final course = await db.courses.get(index);
     return Future.value(course);
   }
 
@@ -57,7 +65,7 @@ class DbController {
     // if there are no schemas open open them
     if (Isar.instanceNames.isEmpty) {
       return await Isar.open(
-        [CourseSchema],
+        [CourseSchema, AssessmentSchema],
         inspector: true,
       );
     }

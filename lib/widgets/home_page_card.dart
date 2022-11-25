@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:school_planner/pages/grades_page.dart';
 import 'package:school_planner/routes.dart';
 
 
@@ -12,7 +13,8 @@ class HomePageCard extends StatelessWidget {
   Widget build(BuildContext context){
     return GestureDetector(
       onTap: (){
-        Routes.seafarer.navigate(route);
+        // Routes.seafarer.navigate(route);
+        Navigator.pushNamed(context, route);
       },
       child: Card(
           color: Color(0xFF3D3D3D),

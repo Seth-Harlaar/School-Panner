@@ -1,4 +1,5 @@
 import 'package:isar/isar.dart';
+import 'package:school_planner/models/assessment.dart';
 
 part 'course.g.dart';
 
@@ -10,6 +11,9 @@ class Course {
   String title;
   String courseCode;
   int hoursPerWeek;
+
+  // link to assessments
+  final assessments = IsarLinks<Assessment>();
 
   Course({required this.title, this.courseCode = 'none yet', this.hoursPerWeek = 0});
 }

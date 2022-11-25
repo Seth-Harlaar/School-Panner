@@ -7,8 +7,8 @@ import 'package:school_planner/pages/layouts/home_medium_layout.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  final List<String> sampleTitles = const ['Grades', 'Notes', 'Settings', 'Calendar', 'Charts Page', 'New Course', 'New Student', ];
-  final List<String> sampleLocations = const['/gradesPage', '/notesPage', 'Settings', '/calenderPage', 'charts', '/newCoursePage', '/newStudentPage', ];
+  final List<String> sampleTitles = const ['Grades', 'Notes', 'Settings', 'Calendar', 'Charts Page', 'New Course', 'New Student', 'New Assessment'];
+  final List<String> sampleLocations = const['/gradesPage', '/notesPage', 'Settings', '/calenderPage', 'charts', '/newCoursePage', '/newStudentPage', '/newAssessmentPage'];
 
   Widget build(BuildContext context){
     return Scaffold(
