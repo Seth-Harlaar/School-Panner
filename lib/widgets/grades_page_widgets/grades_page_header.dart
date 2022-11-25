@@ -10,10 +10,10 @@ class GradesPageHeader extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       
-      child: LargePrimaryCard (
+      child: LargeSecondaryCard (
         
 
-        childWidget: Padding(
+        child: Padding(
           padding: const EdgeInsets.all(10.0),
 
           child: Column(

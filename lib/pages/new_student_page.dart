@@ -26,7 +26,7 @@ class NewStudentPage extends StatelessWidget {
           Padding(
           padding: EdgeInsets.all(8.0),
             child: LargePrimaryCard(
-              childWidget: Padding(
+              child: Padding(
                 padding: EdgeInsets.all(8.0),
 
                 // new student form

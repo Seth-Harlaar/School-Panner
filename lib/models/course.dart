@@ -13,7 +13,7 @@ class Course {
   int hoursPerWeek;
 
   // link to assessments
-  final assessments = IsarLinks<Assessment>();
+  final assessment = IsarLinks<Assessment>();
 
   Course({required this.title, this.courseCode = 'none yet', this.hoursPerWeek = 0});
 }

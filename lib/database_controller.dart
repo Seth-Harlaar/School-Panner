@@ -24,10 +24,25 @@ class DbController {
     });
   }
 
-  void saveAssessment(Assessment newAssessment) async {
+  void saveAssessment(Assessment newAssessment, int courseId) async {
     final db = await dataBase;
+    db.courses.get(courseId).then((course){
+      if(course != null){
+
+        course.assessment.add(newAssessment);
+        db.writeTxn(() async {
+          await db.assessments.put(newAssessment);
+          await course.assessment.save();
+        });
+
+      } else {
+        print("could not find course with that id");
+      }
+    });
+    
+
     db.writeTxn(() async {
-      await db.assessments.put(newAssessment);
+      // await db.assessments.put(newAssessment);
     });
   }
 

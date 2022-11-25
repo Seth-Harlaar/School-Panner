@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
             '/calenderPage'       : (context) => const CalenderPage(),
             '/newCoursePage'      : (context) => const NewCoursePage(),
             '/newStudentPage'     : (context) => const NewStudentPage(),
-            '/newAssessmentPage'  : (context) => const NewAssessmentPage(),
+            '/newAssessmentPage'  : (context) => const NewAssessmentPage(courseId: 0),
             '/notesPage'          : (context) => const NotesPage(),
           }
         ),

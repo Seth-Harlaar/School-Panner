@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:school_planner/models/course.dart';
+import 'package:school_planner/widgets/view_course_page_widgets/view_course_page_widgets.dart';
 
 
 class ViewCourseContent extends StatelessWidget {
@@ -10,22 +11,12 @@ class ViewCourseContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-
     return Column(
-      
       children: [
-        const Text(
-          'Course info:'
-        ),
-        Text(
-          'Title:  ${course.title}',
-        ),
-        Text(
-          'Course Code:  ${course.courseCode}',
-        ),
-        Text(
-          'Hours Per Week:  ${course.hoursPerWeek}',
-        ),
+        ViewCoursePageHeader(courseTitle: course.title, courseCode: course.courseCode),
+
+        ViewCoursePageAssessSummary(ungradedAssessmentCount: 0, gradedAssessmentCount: 0, courseId: course.id),
+
       ],
     );
   }

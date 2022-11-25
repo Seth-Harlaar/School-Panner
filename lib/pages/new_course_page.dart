@@ -22,12 +22,15 @@ class NewCoursePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: LargePrimaryCard(
-                childWidget: Padding(
+                child: Padding(
                   padding: const EdgeInsets.all(8.0),
 
                   child: Column(
                     children: const [
-                      HeaderOne(text: 'New Course Info'),
+                      CustomHeader(
+                        size: 1,
+                        text: 'New Course Info'
+                      ),
                       SizedBox(height: 25),
                       NewCourseForm(),
                     ],

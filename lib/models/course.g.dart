@@ -39,7 +39,14 @@ const CourseSchema = CollectionSchema(
   deserializeProp: _courseDeserializeProp,
   idName: r'id',
   indexes: {},
-  links: {},
+  links: {
+    r'assessment': LinkSchema(
+      id: -4435351488207689304,
+      name: r'assessment',
+      target: r'Assessment',
+      single: false,
+    )
+  },
   embeddedSchemas: {},
   getId: _courseGetId,
   getLinks: _courseGetLinks,
@@ -107,11 +114,13 @@ Id _courseGetId(Course object) {
 }
 
 List<IsarLinkBase<dynamic>> _courseGetLinks(Course object) {
-  return [];
+  return [object.assessment];
 }
 
 void _courseAttach(IsarCollection<dynamic> col, Id id, Course object) {
   object.id = id;
+  object.assessment
+      .attach(col, col.isar.collection<Assessment>(), r'assessment', id);
 }
 
 extension CourseQueryWhereSort on QueryBuilder<Course, Course, QWhere> {
@@ -558,7 +567,64 @@ extension CourseQueryFilter on QueryBuilder<Course, Course, QFilterCondition> {
 
 extension CourseQueryObject on QueryBuilder<Course, Course, QFilterCondition> {}
 
-extension CourseQueryLinks on QueryBuilder<Course, Course, QFilterCondition> {}
+extension CourseQueryLinks on QueryBuilder<Course, Course, QFilterCondition> {
+  QueryBuilder<Course, Course, QAfterFilterCondition> assessment(
+      FilterQuery<Assessment> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'assessment');
+    });
+  }
+
+  QueryBuilder<Course, Course, QAfterFilterCondition> assessmentLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'assessment', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<Course, Course, QAfterFilterCondition> assessmentIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'assessment', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<Course, Course, QAfterFilterCondition> assessmentIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'assessment', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<Course, Course, QAfterFilterCondition> assessmentLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'assessment', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<Course, Course, QAfterFilterCondition>
+      assessmentLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'assessment', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<Course, Course, QAfterFilterCondition> assessmentLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'assessment', lower, includeLower, upper, includeUpper);
+    });
+  }
+}
 
 extension CourseQuerySortBy on QueryBuilder<Course, Course, QSortBy> {
   QueryBuilder<Course, Course, QAfterSortBy> sortByCourseCode() {

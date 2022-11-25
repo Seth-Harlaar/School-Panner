@@ -34,7 +34,7 @@ class FormHandler {
   }
 
   // new assessment
-  void submitAssessment({required formKey}){
+  void submitAssessment({required formKey, required courseId}){
     final form = formKey.currentState;
 
     // save on validate
@@ -45,7 +45,6 @@ class FormHandler {
       final weight = int.parse(formInput['weight']);
       final type = int.parse(formInput['type']);
 
-
       // make a new assessment
       final newAssessment = Assessment(
         title: formInput['title'], 
@@ -54,9 +53,9 @@ class FormHandler {
         assessmentType: type,
       );
 
-      // then store new course via the database controller
+      // then store new assessment in the appropriate course via the database controller
       final db = DbController();
-      db.saveAssessment(newAssessment);
+      db.saveAssessment(newAssessment, courseId);
     }
   }
 

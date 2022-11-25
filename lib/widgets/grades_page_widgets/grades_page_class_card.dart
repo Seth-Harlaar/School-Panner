@@ -13,8 +13,7 @@ class GradesPageClassCard extends StatelessWidget {
   final Course? course;
 
   @override
-  Widget build(BuildContext context) {
-    
+  Widget build(BuildContext context){
 
     return GestureDetector(
       onTap:() {
@@ -57,7 +56,7 @@ class GradesPageClassCard extends StatelessWidget {
                   ],
                 ),
         
-                const Spacer( flex: 5),
+                const Spacer(),
     
                 Text(
                   '${course?.hoursPerWeek ?? '-'}%',

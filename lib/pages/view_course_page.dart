@@ -44,7 +44,7 @@ class _ViewCoursePageState extends State<ViewCoursePage> {
                 preferredSize: Size.fromHeight(100),
                 child: AppToolBar(), 
               ),
-              body: ViewCourseContent(course: inputCourse)
+              body: ViewCourseContent(course: inputCourse),
             );
           }
 

@@ -5,7 +5,9 @@ import 'package:school_planner/widgets/new_assessment_form.dart';
 
 
 class NewAssessmentPage extends StatelessWidget {
-  const NewAssessmentPage({super.key});
+  const NewAssessmentPage({super.key, required this.courseId});
+
+  final int courseId;
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +24,17 @@ class NewAssessmentPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: LargePrimaryCard(
-                childWidget: Padding(
+                child: Padding(
                   padding: const EdgeInsets.all(8.0),
 
                   child: Column(
-                    children: const [
-                      HeaderOne(text: 'Add a New Assessment'),
-                      SizedBox(height: 25),
-                      NewAssessmentForm(),
+                    children: [
+                      const CustomHeader(
+                        size: 1,
+                        text: 'Add a New Assessment'
+                      ),
+                      const SizedBox(height: 25),
+                      NewAssessmentForm(courseId: courseId),
                     ],
                   )
                 )

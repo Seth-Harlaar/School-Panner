@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:school_planner/form_handler.dart';
 
 class NewAssessmentForm extends StatefulWidget {
-  const NewAssessmentForm({super.key});
+  const NewAssessmentForm({super.key, required this.courseId});
+
+  final int courseId;
 
   @override
   State<NewAssessmentForm> createState() => _NewAssessmentFormState();
@@ -78,7 +80,7 @@ class _NewAssessmentFormState extends State<NewAssessmentForm> {
           const SizedBox(height: 25),
           ElevatedButton(
             onPressed: (){
-              courseForm.submitAssessment(formKey: _formKey);
+              courseForm.submitAssessment(formKey: _formKey, courseId: widget.courseId);
             },
               child: const Text('Submit')
           ),
