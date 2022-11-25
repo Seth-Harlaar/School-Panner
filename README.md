@@ -1,16 +1,17 @@
-# school_planner
+# school_planner [WIP]
 
-A new Flutter project.
+very early stages
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+### currently working on:
+- page for viewing courses
+- linking assessments to courses
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### end goal features
+- working calender
+- list of courses with assessments, grade calculations
+- notes page
+- priority matrix page - recommended order of coursework
+- appealing ui, potentially themed to certain schools
