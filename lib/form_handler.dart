@@ -24,7 +24,7 @@ class FormHandler {
       form.save();
 
       // make a new course from the info
-      final newCourse = Course(title: formInput['title']);
+      final newCourse = Course( title: formInput['title'], courseCode: formInput['code'], hoursPerWeek: int.parse(formInput['hours']) );
       // Course({required this.title, required this.courseCode, this.hoursPerWeek = 0});
 
       // then store new course via the database controller
@@ -75,7 +75,7 @@ class FormHandler {
 
       final inputInt = int.tryParse(input);
       if(inputInt == null){
-        return 'You must enter a valid input';
+        return 'You must enter a valid integer input';
       }
 
       return null;

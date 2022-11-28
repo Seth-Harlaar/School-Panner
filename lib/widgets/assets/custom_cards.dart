@@ -80,3 +80,79 @@ class SmallHighlightCardHollow extends StatelessWidget {
     );
   }
 }
+
+
+
+
+class LargePrimaryGradientCard extends StatelessWidget {
+  const LargePrimaryGradientCard({super.key, required this.child});
+  
+  final Widget child;
+  
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(6.0),
+      ),
+      child: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: <Color>[
+              Color(0xFF2b2b2b),
+              Color(0xFF3D3D3D),
+
+            ]
+          ),
+
+        ),
+        
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: child,
+        )
+      ),
+    );
+  }
+}
+
+
+class LargeSecondaryGradientCard extends StatelessWidget {
+  const LargeSecondaryGradientCard({super.key, required this.child});
+  
+  final Widget child;
+  
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(6.0),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: <Color>[
+              Color(0xFFC20430),
+              Color(0xFF500214),
+
+            ]
+          ),
+          borderRadius: BorderRadius.circular(6.0),
+        ),
+        
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: child,
+        )
+      ),
+    );
+  }
+}
+
+
+
+

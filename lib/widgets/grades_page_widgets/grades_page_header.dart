@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:school_planner/pages/new_course_page.dart';
 import 'package:school_planner/widgets/assets/assets.dart';
 
 
@@ -39,7 +40,13 @@ class GradesPageHeader extends StatelessWidget {
 
                   const Spacer(),
                   ElevatedButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const NewCoursePage(),
+                        ),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFFFC72A),
                       shape: RoundedRectangleBorder(

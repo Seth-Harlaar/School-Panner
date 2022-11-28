@@ -41,7 +41,7 @@ class _ViewCoursePageState extends State<ViewCoursePage> {
 
             return Scaffold(
               appBar: const PreferredSize(
-                preferredSize: Size.fromHeight(100),
+                preferredSize: Size.fromHeight(50),
                 child: AppToolBar(), 
               ),
               body: ViewCourseContent(course: inputCourse),

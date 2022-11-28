@@ -11,7 +11,7 @@ class NewCoursePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(100),
+        preferredSize: Size.fromHeight(50),
         child: AppToolBar(), 
       ),
       
@@ -20,10 +20,10 @@ class NewCoursePage extends StatelessWidget {
             const SizedBox(height: 25),
             
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: LargePrimaryCard(
+              padding: const EdgeInsets.all(10),
+              child: LargeSecondaryGradientCard(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(10),
 
                   child: Column(
                     children: const [

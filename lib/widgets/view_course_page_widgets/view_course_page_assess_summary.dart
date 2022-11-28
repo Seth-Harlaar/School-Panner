@@ -109,7 +109,6 @@ class ViewCoursePageAssessSummary extends StatelessWidget {
                           ),
                         ),
                       )
-
                     ],
                   )
                 ],

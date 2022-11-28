@@ -40,7 +40,6 @@ class DbController {
       }
     });
     
-
     db.writeTxn(() async {
       // await db.assessments.put(newAssessment);
     });
@@ -72,6 +71,18 @@ class DbController {
     final courseCount = await db.courses.where().count();
     return Future.value(courseCount);
   }
+
+  // Future<List<Assessment>> getAllAssessForCourse(int index) async {
+  //   final db = await dataBase;
+  
+  //   final courses = await db.courses.where().idEqualTo(index).findAll();
+  //   final course = courses[0];
+
+  //   final assessments = course.assessment.load();
+
+  //   return Future.value(assessments);
+  // }
+
 
 
   // * * * Setup * * *

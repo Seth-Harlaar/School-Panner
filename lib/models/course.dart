@@ -17,3 +17,6 @@ class Course {
 
   Course({required this.title, this.courseCode = 'none yet', this.hoursPerWeek = 0});
 }
+
+
+enum AssessmentType { lab, test, assignment }
