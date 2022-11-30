@@ -19,6 +19,8 @@ class ViewAssessmentPage extends StatelessWidget {
       body: Column(
         children: [
           ViewAssessmnetPageHeader(assessmentTitle: pageAssess.title, assessmentDescription: pageAssess.description),
+
+          ViewAssessmentPageProgressSection(weight: pageAssess.weight),
         ],
       )
     );

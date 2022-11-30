@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:school_planner/pages/new_assessment_page.dart';
 import 'package:school_planner/widgets/assets/assets.dart';
-import 'package:school_planner/widgets/new_assessment_form.dart';
+import 'package:school_planner/widgets/new_assessment_page_widgets/new_assessment_page_form.dart';
 
 class ViewCoursePageAssessSummary extends StatelessWidget {
   const ViewCoursePageAssessSummary({super.key, required this.ungradedAssessmentCount, required this.gradedAssessmentCount, required this.courseId});

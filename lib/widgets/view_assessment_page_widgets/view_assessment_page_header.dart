@@ -21,7 +21,7 @@ class ViewAssessmnetPageHeader extends StatelessWidget {
           padding: const EdgeInsets.all(10.0),
 
           child: Container(
-            constraints: const BoxConstraints(minHeight: 200),
+            constraints: const BoxConstraints(minHeight: 150),
             child: Row(
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               // mainAxisSize: MainAxisSize.min,
