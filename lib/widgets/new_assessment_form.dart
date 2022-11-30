@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:school_planner/form_handler.dart';
+import 'package:school_planner/models/assessment.dart';
+import 'package:school_planner/widgets/assets/assets.dart';
 
 class NewAssessmentForm extends StatefulWidget {
   const NewAssessmentForm({super.key, required this.courseId});
@@ -16,6 +18,9 @@ class _NewAssessmentFormState extends State<NewAssessmentForm> {
   @override
   Widget build(BuildContext context) {
     final courseForm = FormHandler(formInput: {});
+  
+    AssessmentType? _assessType = AssessmentType.lab;
+    AsessmentStatus? _assessStatus = AsessmentStatus.needStart;
 
     return Form(
       key: _formKey,
@@ -77,13 +82,17 @@ class _NewAssessmentFormState extends State<NewAssessmentForm> {
             },
           ),
 
+        
           const SizedBox(height: 25),
           ElevatedButton(
             onPressed: (){
               courseForm.submitAssessment(formKey: _formKey, courseId: widget.courseId);
+
+              Navigator.of(context).pop(context);
             },
-              child: const Text('Submit')
+            child: const Text('Submit'),
           ),
+          
         ],
       )
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:school_planner/form_handler.dart';
+import 'package:school_planner/models/course.dart';
 import 'package:school_planner/widgets/assets/assets.dart';
 
 class NewCourseForm extends StatefulWidget {
@@ -11,6 +12,7 @@ class NewCourseForm extends StatefulWidget {
 
 class _NewCoursetFormState extends State<NewCourseForm> {
   final _formKey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -75,12 +77,16 @@ class _NewCoursetFormState extends State<NewCourseForm> {
                 },
               ),
               const SizedBox(height: 25),
+            
+            
             ],
           ),
 
           ElevatedButton(
             onPressed: (){
               courseForm.submitCourse(formKey: _formKey);
+
+              Navigator.of(context).pop(context);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFFFC72A),

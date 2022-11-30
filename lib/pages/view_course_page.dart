@@ -30,7 +30,6 @@ class _ViewCoursePageState extends State<ViewCoursePage> {
 
     return FutureBuilder(
       future: pageCourse,
-
       builder:(context, snapshot) {
         
         // on data retrieved
@@ -57,7 +56,6 @@ class _ViewCoursePageState extends State<ViewCoursePage> {
         return const CircularProgressIndicator();
       },
 
-      
     );
   }
 }

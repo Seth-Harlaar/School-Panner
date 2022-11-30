@@ -14,3 +14,9 @@ class Assessment {
   // constructor
   Assessment({required this.title, required this.description, required this.weight, required this.assessmentType});
 }
+
+
+
+enum AssessmentType { lab, test, assignment }
+
+enum AsessmentStatus { finished, almostDone, workingOn, needStart }

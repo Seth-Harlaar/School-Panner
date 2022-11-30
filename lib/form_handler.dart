@@ -24,8 +24,10 @@ class FormHandler {
       form.save();
 
       // make a new course from the info
-      final newCourse = Course( title: formInput['title'], courseCode: formInput['code'], hoursPerWeek: int.parse(formInput['hours']) );
-      // Course({required this.title, required this.courseCode, this.hoursPerWeek = 0});
+      final newCourse = Course( 
+        title: formInput['title'], courseCode: formInput['code'], 
+        hoursPerWeek: int.parse(formInput['hours'])
+      );
 
       // then store new course via the database controller
       final db = DbController();

@@ -4,6 +4,8 @@ import 'package:school_planner/pages/view_course_page.dart';
 import 'package:school_planner/themes.dart';
 
 
+// Replace with listtile
+
 class GradesPageClassCard extends StatelessWidget {
   const GradesPageClassCard({
     super.key,
@@ -22,6 +24,7 @@ class GradesPageClassCard extends StatelessWidget {
         if( localCourse != null ){
           Navigator.of(context).push(
             MaterialPageRoute(
+              // change to send the whole course instead of just the id
               builder: (context) => ViewCoursePage(courseId: localCourse.id),
             ),
           );
