@@ -23,42 +23,105 @@ class ViewCoursePageAssessCard extends StatelessWidget {
         );
       },
 
-      child: LargePrimaryCard(
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 10.0),
-    
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+      child: LargePrimaryCardNoPadding(
+        child: ListTile(
+          leading: assessmentIcon(assessment.assessmentType),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(
-                Icons.text_snippet,
-                color: Color(0xFFC20430),
-                size: 50
-              ),
-      
-              const Spacer(),
-    
-              Column(
-                mainAxisSize: MainAxisSize.min,
-    
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text( assessment.title, style: CustomTextStyles.headerTwo ),
-                  Text( '${assessment.weight} assessments', style: CustomTextStyles.subHeading ),
+                  CustomHeader(
+                    text: assessment.title,
+                    size: 1,
+                  ),
+                  TinySecondaryCardHollow(
+                    child: Text(
+                      assessment.assessmentType.name,
+                      style: const TextStyle(
+                        fontSize: 18,
+                      )
+                    ),
+                  ),
                 ],
               ),
-      
-              const Spacer(),
-    
-              Text(
-                '${assessment.assessmentType}',
-                style: const TextStyle(
-                  fontSize: 25,
-                )
-              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const CustomHeader(
+                    text: 'Weight:',
+                    size: 3,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: CustomHeader(
+                      text: '${assessment.weight}%',
+                      size: 3,
+                    ),
+                  )
+                ],
+              )
             ],
           )
+          
         ),
-      ),
+      )
+
+
+
+
+      // child: LargePrimaryCard(
+      //   child: Padding(
+      //     padding: const EdgeInsets.only(bottom: 10.0),
+    
+      //     child: Row(
+      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //       children: [
+      //         assessmentIcon(assessment.assessmentType),
+      
+      //         const Spacer(),
+    
+      //         Expanded(
+      //           flex: 5,
+      //           child: Column(
+      //             mainAxisSize: MainAxisSize.min,
+      //             crossAxisAlignment: CrossAxisAlignment.start,
+      //             children: [
+      //               Text( assessment.title, style: CustomTextStyles.headerTwo ),
+      //               Text( 'weight: ${assessment.weight}%', style: CustomTextStyles.subHeading ),
+      //             ],
+      //           ),
+      //         ),
+      
+      //         const Spacer(),
+    
+      //         Expanded(
+      //           flex: 2,
+      //           child: Column(
+      //             mainAxisSize: MainAxisSize.min,
+      //             crossAxisAlignment: CrossAxisAlignment.center,
+      //             children: [
+      //               TinySecondaryCardHollow(
+      //                 child: Text(
+      //                   '${assessment.assessmentType.name}',
+      //                   style: const TextStyle(
+      //                     fontSize: 18,
+      //                   )
+      //                 ),
+      //               ),
+      //               CustomHeader(
+      //                 text: 'asd',
+      //                 size: 3
+      //               )
+      //             ],
+      //           ),
+      //         ),
+      //       ],
+      //     )
+      //   ),
+      // ),
     );
   }
 }

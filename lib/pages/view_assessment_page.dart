@@ -18,9 +18,17 @@ class ViewAssessmentPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          ViewAssessmnetPageHeader(assessmentTitle: pageAssess.title, assessmentDescription: pageAssess.description),
+          ViewAssessmnetPageHeader(
+            assessmentTitle: pageAssess.title, assessmentDescription: pageAssess.description, 
+            assessmentType: pageAssess.assessmentType,
+          ),
 
-          ViewAssessmentPageProgressSection(weight: pageAssess.weight),
+          SizedBox(height: 25),
+          ViewAssessmentPageProgressSection(weight: pageAssess.weight, status: pageAssess.assessmentStatus),
+
+          SizedBox(height: 25),
+          // {'urg': 0, 'imp': 0, 'dueDate': 'none yet', 'ungraded': true}
+          const ViewAssessmentPageInfo(data: {'urg': 0, 'imp': 0, 'dueDate': 'none yet', 'ungraded': true})
         ],
       )
     );

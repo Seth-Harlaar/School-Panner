@@ -17,18 +17,28 @@ const CourseSchema = CollectionSchema(
   name: r'Course',
   id: -5832084671214696602,
   properties: {
-    r'courseCode': PropertySchema(
+    r'absGrade': PropertySchema(
       id: 0,
+      name: r'absGrade',
+      type: IsarType.double,
+    ),
+    r'courseCode': PropertySchema(
+      id: 1,
       name: r'courseCode',
       type: IsarType.string,
     ),
+    r'curGrade': PropertySchema(
+      id: 2,
+      name: r'curGrade',
+      type: IsarType.double,
+    ),
     r'hoursPerWeek': PropertySchema(
-      id: 1,
+      id: 3,
       name: r'hoursPerWeek',
       type: IsarType.long,
     ),
     r'title': PropertySchema(
-      id: 2,
+      id: 4,
       name: r'title',
       type: IsarType.string,
     )
@@ -71,9 +81,11 @@ void _courseSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.courseCode);
-  writer.writeLong(offsets[1], object.hoursPerWeek);
-  writer.writeString(offsets[2], object.title);
+  writer.writeDouble(offsets[0], object.absGrade);
+  writer.writeString(offsets[1], object.courseCode);
+  writer.writeDouble(offsets[2], object.curGrade);
+  writer.writeLong(offsets[3], object.hoursPerWeek);
+  writer.writeString(offsets[4], object.title);
 }
 
 Course _courseDeserialize(
@@ -83,9 +95,11 @@ Course _courseDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Course(
-    courseCode: reader.readStringOrNull(offsets[0]) ?? 'none yet',
-    hoursPerWeek: reader.readLongOrNull(offsets[1]) ?? 0,
-    title: reader.readString(offsets[2]),
+    absGrade: reader.readDoubleOrNull(offsets[0]) ?? 0.0,
+    courseCode: reader.readString(offsets[1]),
+    curGrade: reader.readDoubleOrNull(offsets[2]) ?? 0.0,
+    hoursPerWeek: reader.readLong(offsets[3]),
+    title: reader.readString(offsets[4]),
   );
   object.id = id;
   return object;
@@ -99,10 +113,14 @@ P _courseDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readStringOrNull(offset) ?? 'none yet') as P;
+      return (reader.readDoubleOrNull(offset) ?? 0.0) as P;
     case 1:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
+      return (reader.readString(offset)) as P;
     case 2:
+      return (reader.readDoubleOrNull(offset) ?? 0.0) as P;
+    case 3:
+      return (reader.readLong(offset)) as P;
+    case 4:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -199,6 +217,68 @@ extension CourseQueryWhere on QueryBuilder<Course, Course, QWhereClause> {
 }
 
 extension CourseQueryFilter on QueryBuilder<Course, Course, QFilterCondition> {
+  QueryBuilder<Course, Course, QAfterFilterCondition> absGradeEqualTo(
+    double value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'absGrade',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Course, Course, QAfterFilterCondition> absGradeGreaterThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'absGrade',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Course, Course, QAfterFilterCondition> absGradeLessThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'absGrade',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Course, Course, QAfterFilterCondition> absGradeBetween(
+    double lower,
+    double upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'absGrade',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
   QueryBuilder<Course, Course, QAfterFilterCondition> courseCodeEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -325,6 +405,68 @@ extension CourseQueryFilter on QueryBuilder<Course, Course, QFilterCondition> {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'courseCode',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Course, Course, QAfterFilterCondition> curGradeEqualTo(
+    double value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'curGrade',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Course, Course, QAfterFilterCondition> curGradeGreaterThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'curGrade',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Course, Course, QAfterFilterCondition> curGradeLessThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'curGrade',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Course, Course, QAfterFilterCondition> curGradeBetween(
+    double lower,
+    double upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'curGrade',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
       ));
     });
   }
@@ -627,6 +769,18 @@ extension CourseQueryLinks on QueryBuilder<Course, Course, QFilterCondition> {
 }
 
 extension CourseQuerySortBy on QueryBuilder<Course, Course, QSortBy> {
+  QueryBuilder<Course, Course, QAfterSortBy> sortByAbsGrade() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'absGrade', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Course, Course, QAfterSortBy> sortByAbsGradeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'absGrade', Sort.desc);
+    });
+  }
+
   QueryBuilder<Course, Course, QAfterSortBy> sortByCourseCode() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'courseCode', Sort.asc);
@@ -636,6 +790,18 @@ extension CourseQuerySortBy on QueryBuilder<Course, Course, QSortBy> {
   QueryBuilder<Course, Course, QAfterSortBy> sortByCourseCodeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'courseCode', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Course, Course, QAfterSortBy> sortByCurGrade() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'curGrade', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Course, Course, QAfterSortBy> sortByCurGradeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'curGrade', Sort.desc);
     });
   }
 
@@ -665,6 +831,18 @@ extension CourseQuerySortBy on QueryBuilder<Course, Course, QSortBy> {
 }
 
 extension CourseQuerySortThenBy on QueryBuilder<Course, Course, QSortThenBy> {
+  QueryBuilder<Course, Course, QAfterSortBy> thenByAbsGrade() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'absGrade', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Course, Course, QAfterSortBy> thenByAbsGradeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'absGrade', Sort.desc);
+    });
+  }
+
   QueryBuilder<Course, Course, QAfterSortBy> thenByCourseCode() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'courseCode', Sort.asc);
@@ -674,6 +852,18 @@ extension CourseQuerySortThenBy on QueryBuilder<Course, Course, QSortThenBy> {
   QueryBuilder<Course, Course, QAfterSortBy> thenByCourseCodeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'courseCode', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Course, Course, QAfterSortBy> thenByCurGrade() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'curGrade', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Course, Course, QAfterSortBy> thenByCurGradeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'curGrade', Sort.desc);
     });
   }
 
@@ -715,10 +905,22 @@ extension CourseQuerySortThenBy on QueryBuilder<Course, Course, QSortThenBy> {
 }
 
 extension CourseQueryWhereDistinct on QueryBuilder<Course, Course, QDistinct> {
+  QueryBuilder<Course, Course, QDistinct> distinctByAbsGrade() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'absGrade');
+    });
+  }
+
   QueryBuilder<Course, Course, QDistinct> distinctByCourseCode(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'courseCode', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Course, Course, QDistinct> distinctByCurGrade() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'curGrade');
     });
   }
 
@@ -743,9 +945,21 @@ extension CourseQueryProperty on QueryBuilder<Course, Course, QQueryProperty> {
     });
   }
 
+  QueryBuilder<Course, double, QQueryOperations> absGradeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'absGrade');
+    });
+  }
+
   QueryBuilder<Course, String, QQueryOperations> courseCodeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'courseCode');
+    });
+  }
+
+  QueryBuilder<Course, double, QQueryOperations> curGradeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'curGrade');
     });
   }
 

@@ -17,23 +17,30 @@ const AssessmentSchema = CollectionSchema(
   name: r'Assessment',
   id: -7365692047566751431,
   properties: {
-    r'assessmentType': PropertySchema(
+    r'assessmentStatus': PropertySchema(
       id: 0,
+      name: r'assessmentStatus',
+      type: IsarType.byte,
+      enumMap: _AssessmentassessmentStatusEnumValueMap,
+    ),
+    r'assessmentType': PropertySchema(
+      id: 1,
       name: r'assessmentType',
-      type: IsarType.long,
+      type: IsarType.byte,
+      enumMap: _AssessmentassessmentTypeEnumValueMap,
     ),
     r'description': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'description',
       type: IsarType.string,
     ),
     r'title': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'title',
       type: IsarType.string,
     ),
     r'weight': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'weight',
       type: IsarType.long,
     )
@@ -69,10 +76,11 @@ void _assessmentSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeLong(offsets[0], object.assessmentType);
-  writer.writeString(offsets[1], object.description);
-  writer.writeString(offsets[2], object.title);
-  writer.writeLong(offsets[3], object.weight);
+  writer.writeByte(offsets[0], object.assessmentStatus.index);
+  writer.writeByte(offsets[1], object.assessmentType.index);
+  writer.writeString(offsets[2], object.description);
+  writer.writeString(offsets[3], object.title);
+  writer.writeLong(offsets[4], object.weight);
 }
 
 Assessment _assessmentDeserialize(
@@ -82,10 +90,15 @@ Assessment _assessmentDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Assessment(
-    assessmentType: reader.readLong(offsets[0]),
-    description: reader.readString(offsets[1]),
-    title: reader.readString(offsets[2]),
-    weight: reader.readLong(offsets[3]),
+    assessmentStatus: _AssessmentassessmentStatusValueEnumMap[
+            reader.readByteOrNull(offsets[0])] ??
+        AssessmentStatus.notStarted,
+    assessmentType: _AssessmentassessmentTypeValueEnumMap[
+            reader.readByteOrNull(offsets[1])] ??
+        AssessmentType.lab,
+    description: reader.readString(offsets[2]),
+    title: reader.readString(offsets[3]),
+    weight: reader.readLong(offsets[4]),
   );
   object.id = id;
   return object;
@@ -99,17 +112,46 @@ P _assessmentDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLong(offset)) as P;
+      return (_AssessmentassessmentStatusValueEnumMap[
+              reader.readByteOrNull(offset)] ??
+          AssessmentStatus.notStarted) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (_AssessmentassessmentTypeValueEnumMap[
+              reader.readByteOrNull(offset)] ??
+          AssessmentType.lab) as P;
     case 2:
       return (reader.readString(offset)) as P;
     case 3:
+      return (reader.readString(offset)) as P;
+    case 4:
       return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
+
+const _AssessmentassessmentStatusEnumValueMap = {
+  'notStarted': 0,
+  'workingOn': 1,
+  'almostDone': 2,
+  'finished': 3,
+};
+const _AssessmentassessmentStatusValueEnumMap = {
+  0: AssessmentStatus.notStarted,
+  1: AssessmentStatus.workingOn,
+  2: AssessmentStatus.almostDone,
+  3: AssessmentStatus.finished,
+};
+const _AssessmentassessmentTypeEnumValueMap = {
+  'lab': 0,
+  'test': 1,
+  'assignment': 2,
+};
+const _AssessmentassessmentTypeValueEnumMap = {
+  0: AssessmentType.lab,
+  1: AssessmentType.test,
+  2: AssessmentType.assignment,
+};
 
 Id _assessmentGetId(Assessment object) {
   return object.id;
@@ -203,7 +245,63 @@ extension AssessmentQueryWhere
 extension AssessmentQueryFilter
     on QueryBuilder<Assessment, Assessment, QFilterCondition> {
   QueryBuilder<Assessment, Assessment, QAfterFilterCondition>
-      assessmentTypeEqualTo(int value) {
+      assessmentStatusEqualTo(AssessmentStatus value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'assessmentStatus',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition>
+      assessmentStatusGreaterThan(
+    AssessmentStatus value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'assessmentStatus',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition>
+      assessmentStatusLessThan(
+    AssessmentStatus value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'assessmentStatus',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition>
+      assessmentStatusBetween(
+    AssessmentStatus lower,
+    AssessmentStatus upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'assessmentStatus',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition>
+      assessmentTypeEqualTo(AssessmentType value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'assessmentType',
@@ -214,7 +312,7 @@ extension AssessmentQueryFilter
 
   QueryBuilder<Assessment, Assessment, QAfterFilterCondition>
       assessmentTypeGreaterThan(
-    int value, {
+    AssessmentType value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -228,7 +326,7 @@ extension AssessmentQueryFilter
 
   QueryBuilder<Assessment, Assessment, QAfterFilterCondition>
       assessmentTypeLessThan(
-    int value, {
+    AssessmentType value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -242,8 +340,8 @@ extension AssessmentQueryFilter
 
   QueryBuilder<Assessment, Assessment, QAfterFilterCondition>
       assessmentTypeBetween(
-    int lower,
-    int upper, {
+    AssessmentType lower,
+    AssessmentType upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -640,6 +738,19 @@ extension AssessmentQueryLinks
 
 extension AssessmentQuerySortBy
     on QueryBuilder<Assessment, Assessment, QSortBy> {
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> sortByAssessmentStatus() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'assessmentStatus', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterSortBy>
+      sortByAssessmentStatusDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'assessmentStatus', Sort.desc);
+    });
+  }
+
   QueryBuilder<Assessment, Assessment, QAfterSortBy> sortByAssessmentType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'assessmentType', Sort.asc);
@@ -692,6 +803,19 @@ extension AssessmentQuerySortBy
 
 extension AssessmentQuerySortThenBy
     on QueryBuilder<Assessment, Assessment, QSortThenBy> {
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> thenByAssessmentStatus() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'assessmentStatus', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterSortBy>
+      thenByAssessmentStatusDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'assessmentStatus', Sort.desc);
+    });
+  }
+
   QueryBuilder<Assessment, Assessment, QAfterSortBy> thenByAssessmentType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'assessmentType', Sort.asc);
@@ -756,6 +880,12 @@ extension AssessmentQuerySortThenBy
 
 extension AssessmentQueryWhereDistinct
     on QueryBuilder<Assessment, Assessment, QDistinct> {
+  QueryBuilder<Assessment, Assessment, QDistinct> distinctByAssessmentStatus() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'assessmentStatus');
+    });
+  }
+
   QueryBuilder<Assessment, Assessment, QDistinct> distinctByAssessmentType() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'assessmentType');
@@ -791,7 +921,15 @@ extension AssessmentQueryProperty
     });
   }
 
-  QueryBuilder<Assessment, int, QQueryOperations> assessmentTypeProperty() {
+  QueryBuilder<Assessment, AssessmentStatus, QQueryOperations>
+      assessmentStatusProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'assessmentStatus');
+    });
+  }
+
+  QueryBuilder<Assessment, AssessmentType, QQueryOperations>
+      assessmentTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'assessmentType');
     });

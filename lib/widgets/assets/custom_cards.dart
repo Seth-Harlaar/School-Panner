@@ -45,7 +45,24 @@ class LargePrimaryCard extends StatelessWidget {
   }
 }
 
+class LargePrimaryCardNoPadding extends StatelessWidget {
+  const LargePrimaryCardNoPadding({super.key, required this.child});
 
+  final Widget child;
+
+  @override
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      color: Color(0xFF3D3D3D),
+
+      child: child,
+    );
+  }
+}
 
 
 
@@ -82,6 +99,38 @@ class SmallHighlightCardHollow extends StatelessWidget {
 }
 
 
+class TinySecondaryCardHollow extends StatelessWidget {
+  const TinySecondaryCardHollow({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(6.0),
+        side: const BorderSide(
+          color: Color(0xFFC20430),
+        ),
+      ),
+      color: const Color(0x00FFFFFF),
+
+      child: DefaultTextStyle.merge(
+        style: const TextStyle(
+          color: Color(0xFFC20430),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
+          child: child,
+        )
+      ),
+    );
+  }
+}
+
+
+
 
 
 class LargePrimaryGradientCard extends StatelessWidget {
@@ -106,7 +155,6 @@ class LargePrimaryGradientCard extends StatelessWidget {
 
             ]
           ),
-
         ),
         
         child: Padding(

@@ -4,8 +4,8 @@ very early stages
 
 
 ### currently working on:
-- page for viewing courses
-- linking assessments to courses
+- page for viewing assessments
+- more complete forms
 
 
 

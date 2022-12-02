@@ -21,23 +21,26 @@ class NewAssessmentPage extends StatelessWidget {
           children: [
             const SizedBox(height: 25),
             
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: LargePrimaryCard(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-
-                    child: Column(
-                      children: [
-                        const CustomHeader(
-                          size: 1,
-                          text: 'Add a New Assessment'
-                        ),
-                        const SizedBox(height: 25),
-                        NewAssessmentForm(courseId: courseId),
-                      ],
-                    ),
-                )
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: LargeSecondaryGradientCard(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+            
+                      child: ListView(
+                        // shrinkWrap: true,
+                        children: [
+                          const CustomHeader(
+                            size: 1,
+                            text: 'Add a New Assessment'
+                          ),
+                          const SizedBox(height: 25),
+                            NewAssessmentForm(courseId: courseId),
+                        ],
+                      ),
+                  )
+                ),
               ),
             )
           ],

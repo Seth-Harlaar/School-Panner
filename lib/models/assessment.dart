@@ -9,14 +9,17 @@ class Assessment {
   String title;
   String description;
   int weight;
-  int assessmentType;
+  @enumerated
+  AssessmentType assessmentType;
+  @enumerated
+  AssessmentStatus assessmentStatus;
 
   // constructor
-  Assessment({required this.title, required this.description, required this.weight, required this.assessmentType});
+  Assessment({required this.title, required this.description, required this.weight, required this.assessmentType, required this.assessmentStatus});
 }
 
 
 
 enum AssessmentType { lab, test, assignment }
 
-enum AsessmentStatus { finished, almostDone, workingOn, needStart }
+enum AssessmentStatus { notStarted, workingOn, almostDone, finished }

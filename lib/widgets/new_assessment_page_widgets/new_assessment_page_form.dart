@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:school_planner/form_handler.dart';
 import 'package:school_planner/models/assessment.dart';
+import 'package:school_planner/widgets/new_assessment_page_widgets/new_assessment_page_progress_selector.dart';
 import 'package:school_planner/widgets/new_assessment_page_widgets/new_assessment_page_widgets.dart';
 
 class NewAssessmentForm extends StatefulWidget {
@@ -19,18 +20,19 @@ class _NewAssessmentFormState extends State<NewAssessmentForm> {
   Widget build(BuildContext context) {
     final courseForm = FormHandler(formInput: {});
   
-    AssessmentType? _assessType = AssessmentType.lab;
-    AsessmentStatus? _assessStatus = AsessmentStatus.needStart;
-
     return Form(
       key: _formKey,
       child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+
             const Text('Title'),
             TextFormField(
               decoration: const InputDecoration(
                 hintText: 'Assignment 3',
+                hintStyle: TextStyle(color: Color(0x99FFFFFF)),
+                enabledBorder: UnderlineInputBorder( borderSide: BorderSide(color: Colors.white)),
               ),
               validator: FormHandler.validateTextInput,
               onSaved:(newValue){
@@ -39,13 +41,15 @@ class _NewAssessmentFormState extends State<NewAssessmentForm> {
                 }
               },
             ),
-            
             const SizedBox(height: 25),
+            
             
             const Text('Description'),
             TextFormField(
               decoration: const InputDecoration(
                 hintText: '10 page essay...',
+                hintStyle: TextStyle(color: Color(0x99FFFFFF)),
+                enabledBorder: UnderlineInputBorder( borderSide: BorderSide(color: Colors.white)),
               ),
               validator: FormHandler.validateTextInput,
               onSaved:(newValue){
@@ -54,12 +58,15 @@ class _NewAssessmentFormState extends State<NewAssessmentForm> {
                 }
               },
             ),
-      
             const SizedBox(height: 25),
+
+
             const Text('Weight (%)'),
             TextFormField(
               decoration: const InputDecoration(
                 hintText: '40',
+                hintStyle: TextStyle(color: Color(0x99FFFFFF)),
+                enabledBorder: UnderlineInputBorder( borderSide: BorderSide(color: Colors.white)),
               ),
               validator: FormHandler.validateIntegerInput,
               onSaved:(newValue){
@@ -72,7 +79,11 @@ class _NewAssessmentFormState extends State<NewAssessmentForm> {
       
             const SizedBox(height: 25),
             const Text('Type'),
-            NewAssessmentPageTypeSelector(formHandler: courseForm),
+            Center(child: NewAssessmentPageTypeSelector(formHandler: courseForm)),
+
+              const SizedBox(height: 25),
+            const Text('Status'),
+            NewAssessmentPageProgressSelector(formHandler: courseForm),
       
           
             const SizedBox(height: 25),

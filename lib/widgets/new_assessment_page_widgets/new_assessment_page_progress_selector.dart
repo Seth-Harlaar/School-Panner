@@ -4,29 +4,29 @@ import 'package:school_planner/models/assessment.dart';
 
 
 
-class NewAssessmentPageTypeSelector extends StatefulWidget {
-  const NewAssessmentPageTypeSelector({super.key, required this.formHandler});
+class NewAssessmentPageProgressSelector extends StatefulWidget {
+  const NewAssessmentPageProgressSelector({super.key, required this.formHandler});
 
   final FormHandler formHandler;
 
   @override
-  State<NewAssessmentPageTypeSelector> createState() => _NewAssessmentPageTypeSelectorState();
+  State<NewAssessmentPageProgressSelector> createState() => _NewAssessmentPageProgressSelectorState();
 }
 
-class _NewAssessmentPageTypeSelectorState extends State<NewAssessmentPageTypeSelector> {
+class _NewAssessmentPageProgressSelectorState extends State<NewAssessmentPageProgressSelector> {
   
-  AssessmentType selectedAssessType = AssessmentType.assignment;
+  AssessmentStatus selectedStatus = AssessmentStatus.notStarted;
 
   @override
   void initState(){
     super.initState();
-    widget.formHandler.formInput['type'] = selectedAssessType;
+    widget.formHandler.formInput['status'] = selectedStatus;
   }
 
   // for building the list of buttons
-  Widget _buttonListBuilder(BuildContext context, int buttonIndex){
+  Widget _buttonListBuilder(int buttonIndex){
     
-    if(buttonIndex == selectedAssessType.index ){
+    if(buttonIndex == selectedStatus.index ){
       return _buttonBuilder(true, buttonIndex);
     } else {
       return _buttonBuilder(false, buttonIndex);
@@ -39,8 +39,8 @@ class _NewAssessmentPageTypeSelectorState extends State<NewAssessmentPageTypeSel
       onPressed: (){
         if(!highlight){
           setState(() {
-            selectedAssessType = AssessmentType.values[buttonIndex];
-            widget.formHandler.formInput['type'] = selectedAssessType;
+            selectedStatus = AssessmentStatus.values[buttonIndex];
+            widget.formHandler.formInput['status'] = selectedStatus;
           });
         }
       },
@@ -53,7 +53,7 @@ class _NewAssessmentPageTypeSelectorState extends State<NewAssessmentPageTypeSel
       child: Padding(
         padding: const EdgeInsets.all(0),
         child:  Text(
-          AssessmentType.values[buttonIndex].name,
+          AssessmentStatus.values[buttonIndex].name,
           style: const TextStyle( fontSize: 15 ),
         ),
       ),
@@ -61,19 +61,26 @@ class _NewAssessmentPageTypeSelectorState extends State<NewAssessmentPageTypeSel
   }
 
 
+  List<Widget> _buttonListContainer(){
+
+    final buttonList = List<Widget>.generate(
+      4,
+      (i){
+        return _buttonListBuilder(i);
+      }
+    );
+    return buttonList;
+  } 
+  
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 40,
-      child: ListView.separated(
-        separatorBuilder: (context, index) => const SizedBox(width: 15),
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemCount: 3,
-        itemBuilder: _buttonListBuilder
-      ),
+  Widget build(BuildContext context){
+
+    return Wrap(
+      alignment: WrapAlignment.spaceAround,
+      children: _buttonListContainer(),
     );
   }
 }
+
 
 
