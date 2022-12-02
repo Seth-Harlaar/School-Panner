@@ -28,7 +28,7 @@ class ViewAssessmentPage extends StatelessWidget {
 
           SizedBox(height: 25),
           // {'urg': 0, 'imp': 0, 'dueDate': 'none yet', 'ungraded': true}
-          const ViewAssessmentPageInfo(data: {'urg': 0, 'imp': 0, 'dueDate': 'none yet', 'ungraded': true})
+          ViewAssessmentPageInfo(assessment: pageAssess),
         ],
       )
     );

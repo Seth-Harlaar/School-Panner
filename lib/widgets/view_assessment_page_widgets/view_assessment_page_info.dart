@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:school_planner/models/assessment.dart';
 import 'package:school_planner/widgets/view_assessment_page_widgets/view_assessment_page_widgets.dart';
 
 
 
 // future implementation:
 // - when a user clicks on one of the info boxes open up a dialogue that displays more info
-// - should also include the ability to edit the information, 
+// - should also include the ability to edit the information
 
 class ViewAssessmentPageInfo extends StatelessWidget {
-  const ViewAssessmentPageInfo({super.key, required this.data});
+  const ViewAssessmentPageInfo({super.key, required this.assessment});
 
-  final Map<String, dynamic> data;
+  final Assessment assessment;
 
   Widget _cardBuilder(int cardIndex){
     
@@ -45,7 +46,7 @@ class ViewAssessmentPageInfo extends StatelessWidget {
           childAspectRatio: 2,
           crossAxisCount: 2,
     
-          children: infoCards(data),
+          children: infoCards(assessment, context),
         ),
     
       ),

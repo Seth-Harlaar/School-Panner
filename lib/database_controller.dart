@@ -39,10 +39,6 @@ class DbController {
         print("could not find course with that id");
       }
     });
-    
-    db.writeTxn(() async {
-      // await db.assessments.put(newAssessment);
-    });
   }
 
 
@@ -82,6 +78,25 @@ class DbController {
 
   //   return Future.value(assessments);
   // }
+
+
+  // * * * Read * * *
+  void saveUpdatedAssessmentGrade({required int assessmentId, required double finalGrade}) async {
+    final db = await dataBase;
+    final assessment = await db.assessments.get(assessmentId);
+
+    if( assessment != null ){
+      db.writeTxn(() async {
+        // update final grade and status
+        assessment.finalGrade = finalGrade;
+        assessment.assessmentStatus = AssessmentStatus.finished;
+        await db.assessments.put(assessment);
+      });
+
+    } else {
+      print('no assessment found');
+    }
+  }
 
 
 

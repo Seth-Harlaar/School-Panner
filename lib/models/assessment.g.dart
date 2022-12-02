@@ -34,13 +34,18 @@ const AssessmentSchema = CollectionSchema(
       name: r'description',
       type: IsarType.string,
     ),
-    r'title': PropertySchema(
+    r'finalGrade': PropertySchema(
       id: 3,
+      name: r'finalGrade',
+      type: IsarType.double,
+    ),
+    r'title': PropertySchema(
+      id: 4,
       name: r'title',
       type: IsarType.string,
     ),
     r'weight': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'weight',
       type: IsarType.long,
     )
@@ -79,8 +84,9 @@ void _assessmentSerialize(
   writer.writeByte(offsets[0], object.assessmentStatus.index);
   writer.writeByte(offsets[1], object.assessmentType.index);
   writer.writeString(offsets[2], object.description);
-  writer.writeString(offsets[3], object.title);
-  writer.writeLong(offsets[4], object.weight);
+  writer.writeDouble(offsets[3], object.finalGrade);
+  writer.writeString(offsets[4], object.title);
+  writer.writeLong(offsets[5], object.weight);
 }
 
 Assessment _assessmentDeserialize(
@@ -97,8 +103,9 @@ Assessment _assessmentDeserialize(
             reader.readByteOrNull(offsets[1])] ??
         AssessmentType.lab,
     description: reader.readString(offsets[2]),
-    title: reader.readString(offsets[3]),
-    weight: reader.readLong(offsets[4]),
+    finalGrade: reader.readDoubleOrNull(offsets[3]) ?? 0,
+    title: reader.readString(offsets[4]),
+    weight: reader.readLong(offsets[5]),
   );
   object.id = id;
   return object;
@@ -122,8 +129,10 @@ P _assessmentDeserializeProp<P>(
     case 2:
       return (reader.readString(offset)) as P;
     case 3:
-      return (reader.readString(offset)) as P;
+      return (reader.readDoubleOrNull(offset) ?? 0) as P;
     case 4:
+      return (reader.readString(offset)) as P;
+    case 5:
       return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -492,6 +501,70 @@ extension AssessmentQueryFilter
     });
   }
 
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition> finalGradeEqualTo(
+    double value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'finalGrade',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition>
+      finalGradeGreaterThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'finalGrade',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition>
+      finalGradeLessThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'finalGrade',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition> finalGradeBetween(
+    double lower,
+    double upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'finalGrade',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
   QueryBuilder<Assessment, Assessment, QAfterFilterCondition> idEqualTo(
       Id value) {
     return QueryBuilder.apply(this, (query) {
@@ -776,6 +849,18 @@ extension AssessmentQuerySortBy
     });
   }
 
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> sortByFinalGrade() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'finalGrade', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> sortByFinalGradeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'finalGrade', Sort.desc);
+    });
+  }
+
   QueryBuilder<Assessment, Assessment, QAfterSortBy> sortByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
@@ -841,6 +926,18 @@ extension AssessmentQuerySortThenBy
     });
   }
 
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> thenByFinalGrade() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'finalGrade', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> thenByFinalGradeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'finalGrade', Sort.desc);
+    });
+  }
+
   QueryBuilder<Assessment, Assessment, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -899,6 +996,12 @@ extension AssessmentQueryWhereDistinct
     });
   }
 
+  QueryBuilder<Assessment, Assessment, QDistinct> distinctByFinalGrade() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'finalGrade');
+    });
+  }
+
   QueryBuilder<Assessment, Assessment, QDistinct> distinctByTitle(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -938,6 +1041,12 @@ extension AssessmentQueryProperty
   QueryBuilder<Assessment, String, QQueryOperations> descriptionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'description');
+    });
+  }
+
+  QueryBuilder<Assessment, double, QQueryOperations> finalGradeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'finalGrade');
     });
   }
 

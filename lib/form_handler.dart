@@ -14,7 +14,7 @@ class FormHandler {
 
 
 
-  // Form submissions
+  // Form submissions - new items
   // new course
   void submitCourse({required formKey}){
     final form = formKey.currentState;
@@ -61,6 +61,25 @@ class FormHandler {
     }
   }
 
+
+  // Form updates
+  // update assessment grade
+  void updateAssessmentGrade({required int id}){
+    
+    // get grade input
+    final double inputGrade = double.parse(formInput['grade']);
+
+    // get assessment
+    final db = DbController();
+
+    // store grade
+    db.saveUpdatedAssessmentGrade(assessmentId: id, finalGrade: inputGrade);
+  }
+
+
+
+
+
   // Input validations
   static String? validateTextInput(String? input){
     if( input == null || input.isEmpty ){
@@ -77,6 +96,20 @@ class FormHandler {
 
       final inputInt = int.tryParse(input);
       if(inputInt == null){
+        return 'You must enter a valid integer input';
+      }
+
+      return null;
+    }
+  }
+
+  static String? validateDoubleInput(String? input){
+    if( input == null || input.isEmpty ){
+        return 'An input for this field is required';
+    } else {
+
+      final inputDouble = double.tryParse(input);
+      if(inputDouble == null){
         return 'You must enter a valid integer input';
       }
 

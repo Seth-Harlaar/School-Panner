@@ -27,6 +27,7 @@ class AppState extends State<AppStateContainer> {
   // *** data variables ***
   Student student = Student();
 
+  // store average grade and number of courses in here
 
   @override 
   void initState(){
