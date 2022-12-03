@@ -34,18 +34,28 @@ const AssessmentSchema = CollectionSchema(
       name: r'description',
       type: IsarType.string,
     ),
-    r'finalGrade': PropertySchema(
+    r'dueDate': PropertySchema(
       id: 3,
+      name: r'dueDate',
+      type: IsarType.dateTime,
+    ),
+    r'finalGrade': PropertySchema(
+      id: 4,
       name: r'finalGrade',
       type: IsarType.double,
     ),
+    r'graded': PropertySchema(
+      id: 5,
+      name: r'graded',
+      type: IsarType.bool,
+    ),
     r'title': PropertySchema(
-      id: 4,
+      id: 6,
       name: r'title',
       type: IsarType.string,
     ),
     r'weight': PropertySchema(
-      id: 5,
+      id: 7,
       name: r'weight',
       type: IsarType.long,
     )
@@ -84,9 +94,11 @@ void _assessmentSerialize(
   writer.writeByte(offsets[0], object.assessmentStatus.index);
   writer.writeByte(offsets[1], object.assessmentType.index);
   writer.writeString(offsets[2], object.description);
-  writer.writeDouble(offsets[3], object.finalGrade);
-  writer.writeString(offsets[4], object.title);
-  writer.writeLong(offsets[5], object.weight);
+  writer.writeDateTime(offsets[3], object.dueDate);
+  writer.writeDouble(offsets[4], object.finalGrade);
+  writer.writeBool(offsets[5], object.graded);
+  writer.writeString(offsets[6], object.title);
+  writer.writeLong(offsets[7], object.weight);
 }
 
 Assessment _assessmentDeserialize(
@@ -103,9 +115,11 @@ Assessment _assessmentDeserialize(
             reader.readByteOrNull(offsets[1])] ??
         AssessmentType.lab,
     description: reader.readString(offsets[2]),
-    finalGrade: reader.readDoubleOrNull(offsets[3]) ?? 0,
-    title: reader.readString(offsets[4]),
-    weight: reader.readLong(offsets[5]),
+    dueDate: reader.readDateTimeOrNull(offsets[3]),
+    finalGrade: reader.readDoubleOrNull(offsets[4]) ?? 0,
+    graded: reader.readBoolOrNull(offsets[5]) ?? false,
+    title: reader.readString(offsets[6]),
+    weight: reader.readLong(offsets[7]),
   );
   object.id = id;
   return object;
@@ -129,10 +143,14 @@ P _assessmentDeserializeProp<P>(
     case 2:
       return (reader.readString(offset)) as P;
     case 3:
-      return (reader.readDoubleOrNull(offset) ?? 0) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 4:
-      return (reader.readString(offset)) as P;
+      return (reader.readDoubleOrNull(offset) ?? 0) as P;
     case 5:
+      return (reader.readBoolOrNull(offset) ?? false) as P;
+    case 6:
+      return (reader.readString(offset)) as P;
+    case 7:
       return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -501,6 +519,77 @@ extension AssessmentQueryFilter
     });
   }
 
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition> dueDateIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'dueDate',
+      ));
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition>
+      dueDateIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'dueDate',
+      ));
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition> dueDateEqualTo(
+      DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'dueDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition>
+      dueDateGreaterThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'dueDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition> dueDateLessThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'dueDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition> dueDateBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'dueDate',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Assessment, Assessment, QAfterFilterCondition> finalGradeEqualTo(
     double value, {
     double epsilon = Query.epsilon,
@@ -561,6 +650,16 @@ extension AssessmentQueryFilter
         upper: upper,
         includeUpper: includeUpper,
         epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition> gradedEqualTo(
+      bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'graded',
+        value: value,
       ));
     });
   }
@@ -849,6 +948,18 @@ extension AssessmentQuerySortBy
     });
   }
 
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> sortByDueDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dueDate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> sortByDueDateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dueDate', Sort.desc);
+    });
+  }
+
   QueryBuilder<Assessment, Assessment, QAfterSortBy> sortByFinalGrade() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'finalGrade', Sort.asc);
@@ -858,6 +969,18 @@ extension AssessmentQuerySortBy
   QueryBuilder<Assessment, Assessment, QAfterSortBy> sortByFinalGradeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'finalGrade', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> sortByGraded() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'graded', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> sortByGradedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'graded', Sort.desc);
     });
   }
 
@@ -926,6 +1049,18 @@ extension AssessmentQuerySortThenBy
     });
   }
 
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> thenByDueDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dueDate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> thenByDueDateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dueDate', Sort.desc);
+    });
+  }
+
   QueryBuilder<Assessment, Assessment, QAfterSortBy> thenByFinalGrade() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'finalGrade', Sort.asc);
@@ -935,6 +1070,18 @@ extension AssessmentQuerySortThenBy
   QueryBuilder<Assessment, Assessment, QAfterSortBy> thenByFinalGradeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'finalGrade', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> thenByGraded() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'graded', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> thenByGradedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'graded', Sort.desc);
     });
   }
 
@@ -996,9 +1143,21 @@ extension AssessmentQueryWhereDistinct
     });
   }
 
+  QueryBuilder<Assessment, Assessment, QDistinct> distinctByDueDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'dueDate');
+    });
+  }
+
   QueryBuilder<Assessment, Assessment, QDistinct> distinctByFinalGrade() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'finalGrade');
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QDistinct> distinctByGraded() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'graded');
     });
   }
 
@@ -1044,9 +1203,21 @@ extension AssessmentQueryProperty
     });
   }
 
+  QueryBuilder<Assessment, DateTime?, QQueryOperations> dueDateProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'dueDate');
+    });
+  }
+
   QueryBuilder<Assessment, double, QQueryOperations> finalGradeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'finalGrade');
+    });
+  }
+
+  QueryBuilder<Assessment, bool, QQueryOperations> gradedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'graded');
     });
   }
 

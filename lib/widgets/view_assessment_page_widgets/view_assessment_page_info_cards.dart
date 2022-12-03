@@ -69,13 +69,16 @@ List<Widget> infoCards(Assessment assessment, context){
         padding: const EdgeInsets.all(10.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          children: const [
-            CustomHeader(
+          children: [
+            const CustomHeader(
               text: 'Due Date',
               size: 1,
             ),
             CustomSubHeading(
-              text: 'never',
+              text: assessment.dueDate == null ?
+                'None selected':
+                '${assessment.dueDate}'
+                ,
               size: 3,
             )
 
@@ -87,16 +90,12 @@ List<Widget> infoCards(Assessment assessment, context){
     // ungraded card
     GestureDetector(
       onTap: () {
-        print("clicked 4");
-
         // open submit grade box
-        if(assessment.assessmentStatus.index != 3){
-          showDialog(
-            context: context,
-            builder: (_) => _ungradedDialog(assessment.id),
-            barrierDismissible: true,
-          );
-        }
+        showDialog(
+          context: context,
+          builder: (_) => _gradeDialog(assessment),
+          barrierDismissible: true,
+        );
       },
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -104,11 +103,11 @@ List<Widget> infoCards(Assessment assessment, context){
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             CustomHeader(
-              text: (assessment.assessmentStatus.index != 3) ? 'Ungraded':'Graded',
+              text: (assessment.graded) ? 'Graded':'Ungraded',
               size: 1,
             ),
             CustomSubHeading(
-              text: (assessment.assessmentStatus.index != 3) ? 'submit grade':'view grade',
+              text: (assessment.graded) ? 'Final Grade: ${assessment.finalGrade}%':'submit grade',
               size: 3,
             )
 
@@ -142,23 +141,36 @@ Widget _cardBuilder(int cardIndex, Widget childWidget){
 }
 
 
-// dialog box for updating grade
-Widget _ungradedDialog(int assessmentId){
-
+Widget _gradeDialog(Assessment assessment){
   final FormHandler ungradedForm = FormHandler(formInput: {});
 
   void buttonCallback(){
-    ungradedForm.updateAssessmentGrade(id: assessmentId);
+    ungradedForm.updateAssessmentGrade(id: assessment.id);
   }
 
   return AlertDialog(
     backgroundColor: const Color(0xFF3D3D3D),
     elevation: 24,
-
-    title: const CustomHeader(
-      size: 2,
-      text: 'This assessment is currently ungraded, you can add a grade below:'
+    
+    title: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CustomHeader(
+          size: 2,
+          text: (assessment.graded) ?
+            // make a rich text to highlight the grade
+            'You achieved a final grade of ${assessment.finalGrade}% on this assessment.' :
+            'You have not yet completed this assignment.'
+        ),
+        CustomSubHeading(
+          size: 3,
+          text: (assessment.graded) ?
+            'You can change your grade here:' :
+            'You can input your grade here:'
+        ),
+      ],
     ),
+
     content: Form(
       autovalidateMode: AutovalidateMode.always,
       onChanged: () {

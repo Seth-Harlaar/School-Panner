@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:school_planner/form_handler.dart';
 import 'package:school_planner/models/assessment.dart';
+import 'package:school_planner/widgets/assets/assets.dart';
 import 'package:school_planner/widgets/new_assessment_page_widgets/new_assessment_page_progress_selector.dart';
 import 'package:school_planner/widgets/new_assessment_page_widgets/new_assessment_page_widgets.dart';
 
@@ -15,10 +16,12 @@ class NewAssessmentForm extends StatefulWidget {
 
 class _NewAssessmentFormState extends State<NewAssessmentForm> {
   final _formKey = GlobalKey<FormState>();
+  DateTime? dueDate;
 
   @override
   Widget build(BuildContext context) {
     final courseForm = FormHandler(formInput: {});
+    courseForm.formInput['date'] = null;
   
     return Form(
       key: _formKey,
@@ -85,10 +88,38 @@ class _NewAssessmentFormState extends State<NewAssessmentForm> {
             const Text('Status'),
             NewAssessmentPageProgressSelector(formHandler: courseForm),
       
+            const SizedBox(height: 25),
+            ElevatedButton(
+              // get a due date from the user
+              onPressed: (){
+                showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime.now(),
+                  lastDate: DateTime.now().add(const Duration(days: 200)),
+                
+                ).then((dateTime){
+                  courseForm.formInput['date'] = dateTime;
+                });
+              },
+              child: const Text('Pick a date and time'),
+            ),
+            
+            
+            CustomHeader(
+              text: (dueDate == null) ? 
+                'No date picked yet' :
+                'Selected due date: $dueDate',
+              size: 3
+            ),
           
             const SizedBox(height: 25),
             ElevatedButton(
               onPressed: (){
+                print('submitting');
+                print(courseForm.formInput['status']);
+                print(courseForm.formInput['type']);
+                print(courseForm.formInput['date']);
                 courseForm.submitAssessment(formKey: _formKey, courseId: widget.courseId);
       
                 Navigator.of(context).pop(context);

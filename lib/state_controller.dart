@@ -27,6 +27,8 @@ class AppState extends State<AppStateContainer> {
   // *** data variables ***
   Student student = Student();
 
+  // store primary/secondary/tertiary colors here
+
   // store average grade and number of courses in here
 
   @override 

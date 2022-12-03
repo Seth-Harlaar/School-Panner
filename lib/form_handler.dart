@@ -43,16 +43,14 @@ class FormHandler {
     if( form.validate() ){
       form.save();
 
-      // get weight and type
-      final weight = int.parse(formInput['weight']);
-
       // make a new assessment
       final newAssessment = Assessment(
         title: formInput['title'], 
         description: formInput['description'],
-        weight: weight,
+        weight: int.parse(formInput['weight']),
         assessmentType: formInput['type'],
-        assessmentStatus: formInput['status']
+        assessmentStatus: formInput['status'],
+        dueDate: formInput['date'],
       );
 
       // then store new assessment in the appropriate course via the database controller

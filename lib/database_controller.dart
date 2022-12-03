@@ -90,6 +90,7 @@ class DbController {
         // update final grade and status
         assessment.finalGrade = finalGrade;
         assessment.assessmentStatus = AssessmentStatus.finished;
+        assessment.graded = true;
         await db.assessments.put(assessment);
       });
 
@@ -97,7 +98,6 @@ class DbController {
       print('no assessment found');
     }
   }
-
 
 
   // * * * Setup * * *
