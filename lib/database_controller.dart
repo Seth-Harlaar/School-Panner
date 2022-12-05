@@ -68,16 +68,11 @@ class DbController {
     return Future.value(courseCount);
   }
 
-  // Future<List<Assessment>> getAllAssessForCourse(int index) async {
-  //   final db = await dataBase;
-  
-  //   final courses = await db.courses.where().idEqualTo(index).findAll();
-  //   final course = courses[0];
-
-  //   final assessments = course.assessment.load();
-
-  //   return Future.value(assessments);
-  // }
+  // return all assessments for a course
+  Future<List<Assessment>> getAllAssessForCourse(Course course) async {
+    Future<List<Assessment>> assessments = course.assessment.filter().findAll();
+    return assessments;
+  }
 
 
   // * * * Read * * *

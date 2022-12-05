@@ -25,11 +25,28 @@ class Course {
   // link to assessments
   final assessment = IsarLinks<Assessment>();
 
-  // move add assessment course methods to here instead of directly through db controller
+  // move add assessment methods to here instead of directly through db controller
+
+
 
   // methods
 
-  // calculate avg grade
+  // calculate avg/abs grade
+  void calculateAverageGrade() async {
+    double points = 0.0;
+    double weight = 0.0;
 
-  // calculate abs grade
+    // get all grade
+    for(var assess in assessment){
+      if(assess.graded){
+        absGrade += assess.finalGrade*(assess.weight/100);
+        weight += assess.weight;
+      }
+    }
+
+    // avg
+    curGrade = points/weight;
+    // abs
+    absGrade = points/100;
+  }
 }

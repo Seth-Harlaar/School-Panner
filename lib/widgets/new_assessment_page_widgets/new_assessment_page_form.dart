@@ -105,9 +105,8 @@ class _NewAssessmentFormState extends State<NewAssessmentForm> {
               child: const Text('Pick a date and time'),
             ),
             
-            
             CustomHeader(
-              text: (dueDate == null) ? 
+              text: (dueDate == null) ?
                 'No date picked yet' :
                 'Selected due date: $dueDate',
               size: 3

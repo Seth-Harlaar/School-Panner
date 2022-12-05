@@ -28,7 +28,6 @@ List<Widget> infoCards(Assessment assessment, context){
               text: '0',
               size: 3,
             )
-
           ],
         )
       ),
@@ -53,7 +52,6 @@ List<Widget> infoCards(Assessment assessment, context){
               text: '0',
               size: 3,
             )
-
           ],
         )
       ),
