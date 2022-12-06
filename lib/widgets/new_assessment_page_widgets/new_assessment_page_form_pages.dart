@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:school_planner/form_handler.dart';
+import 'package:school_planner/models/assessment.dart';
+import 'package:school_planner/widgets/assets/assets.dart';
 import 'package:school_planner/widgets/new_assessment_page_widgets/new_assessment_page_widgets.dart';
 
 class NewAssessmentFormPages extends StatefulWidget {
@@ -14,7 +16,16 @@ class NewAssessmentFormPages extends StatefulWidget {
 class _NewAssessmentFormPagesState extends State<NewAssessmentFormPages> {
   int selectedPage = 0;
   PageController pageController = PageController();
+  DateTime? dueDate;
+  FormHandler newAssessmentFormHandler = FormHandler(formInput: {});
 
+  @override
+  void initState(){
+    super.initState();
+    newAssessmentFormHandler.formInput['date'] = null;
+    newAssessmentFormHandler.formInput['type'] = AssessmentType.assignment;
+    newAssessmentFormHandler.formInput['status'] = AssessmentStatus.notStarted;
+  }
   
   void _updateSelectedPage(int index){
     setState(() {
@@ -27,11 +38,22 @@ class _NewAssessmentFormPagesState extends State<NewAssessmentFormPages> {
     );
   }
 
+  void _updateDueDate(DateTime? inputDueDate){
+    if(inputDueDate != null){
+      setState(() {
+        dueDate = inputDueDate;
+      });
+    }
+  }
+
+  // void _updateFormValue(String key, dynamic value){
+  //   newAssessmentFormHandler.formInput[key] = value;
+  // }
+
   @override
   Widget build(BuildContext context) {
 
-    final newAssessmentFormHandler = FormHandler(formInput: {});
-    newAssessmentFormHandler.formInput['date'] = null;
+    
 
     return Expanded(
       child: Column(
@@ -48,7 +70,7 @@ class _NewAssessmentFormPagesState extends State<NewAssessmentFormPages> {
               children: [
                 FormDescriptionPage(formHandler: newAssessmentFormHandler),
                 FormDetailsPage(formHandler: newAssessmentFormHandler),
-                FormDueDatePage(formHandler: newAssessmentFormHandler),
+                FormDueDatePage(formHandler: newAssessmentFormHandler, dueDateCallback: _updateDueDate, dueDate: dueDate),
               ],
             ),
           ),
@@ -98,6 +120,7 @@ class _FormDescriptionPageState extends State<FormDescriptionPage> {
                   onSaved:(newValue){
                     if(newValue != null ){
                       widget.formHandler.formInput['title'] = newValue;
+                      // widget.submitFormInput('title', newValue);
                     }
                   },
                 ),
@@ -114,7 +137,8 @@ class _FormDescriptionPageState extends State<FormDescriptionPage> {
                   validator: FormHandler.validateTextInput,
                   onSaved:(newValue){
                     if(newValue != null ){
-                      widget.formHandler.formInput['title'] = newValue;
+                      widget.formHandler.formInput['description'] = newValue;
+                      // widget.submitFormInput('description', newValue);
                     }
                   },
                 ),
@@ -133,6 +157,11 @@ class _FormDescriptionPageState extends State<FormDescriptionPage> {
           ElevatedButton(
               onPressed: (){
                 // navigate to next page after saving
+                if(_formKey.currentState!.validate()){
+                  _formKey.currentState!.save();
+                  print('Submitted first page');
+                  print(widget.formHandler.formInput);
+                }
               },
               child: const Text('Next'),
             ),
@@ -141,6 +170,9 @@ class _FormDescriptionPageState extends State<FormDescriptionPage> {
     );
   }
 }
+
+
+
 
 class FormDetailsPage extends StatefulWidget {
   const FormDetailsPage({super.key, required this.formHandler});
@@ -184,10 +216,11 @@ class _FormDetailsPageState extends State<FormDetailsPage> {
                     hintStyle: TextStyle(color: Color(0x99FFFFFF)),
                     enabledBorder: UnderlineInputBorder( borderSide: BorderSide(color: Colors.white)),
                   ),
-                  validator: FormHandler.validateTextInput,
+                  validator: FormHandler.validateDoubleInput,
                   onSaved:(newValue){
                     if(newValue != null ){
-                      widget.formHandler.formInput['title'] = newValue;
+                      widget.formHandler.formInput['weight'] = newValue;
+                      // widget.submitFormInput('weight', newValue);
                     }
                   },
                 ),
@@ -208,10 +241,11 @@ class _FormDetailsPageState extends State<FormDetailsPage> {
                     hintStyle: TextStyle(color: Color(0x99FFFFFF)),
                     enabledBorder: UnderlineInputBorder( borderSide: BorderSide(color: Colors.white)),
                   ),
-                  validator: FormHandler.validateTextInput,
+                  validator: FormHandler.validateDoubleInput,
                   onSaved:(newValue){
                     if(newValue != null ){
-                      widget.formHandler.formInput['title'] = newValue;
+                      widget.formHandler.formInput['finalGrade'] = newValue;
+                      // widget.submitFormInput('finalGrade', newValue);
                     }
                   },
                 ),
@@ -223,11 +257,16 @@ class _FormDetailsPageState extends State<FormDetailsPage> {
 
           // next page 
           ElevatedButton(
-              onPressed: (){
-                // navigate to next page after saving
-              },
-              child: const Text('Next'),
-            ),
+            onPressed: (){
+              // navigate to next page after saving
+              if(_formKey.currentState!.validate()){
+                _formKey.currentState!.save();
+                print('Submitted second page');
+                print(widget.formHandler.formInput);
+              }
+            },
+            child: const Text('Next'),
+          ),
         ],
       ),
     );
@@ -235,9 +274,11 @@ class _FormDetailsPageState extends State<FormDetailsPage> {
 }
 
 class FormDueDatePage extends StatefulWidget {
-  const FormDueDatePage({super.key, required this.formHandler});
+  const FormDueDatePage({super.key, required this.formHandler, required this.dueDateCallback, this.dueDate});
 
   final FormHandler formHandler;
+  final void Function(DateTime?) dueDateCallback;
+  final DateTime? dueDate;
 
   @override
   State<FormDueDatePage> createState() => _FormDueDatePageState();
@@ -250,12 +291,55 @@ class _FormDueDatePageState extends State<FormDueDatePage> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: ElevatedButton(
-        onPressed: (){
-          // validateAssessment();
-        },
-        child: Text('submit'),
-      )
+      child: Column(
+        // crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          
+          // form inputs
+          Expanded(
+            child: Column(
+              children: [
+                const SizedBox(height: 25),
+                ElevatedButton(
+                  // get a due date from the user
+                  onPressed: (){
+                    showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime.now().add(const Duration(days: 200)),
+                    ).then((dateTime){
+                      widget.formHandler.formInput['date'] = dateTime;
+                      widget.dueDateCallback(dateTime);
+                    });
+                  },
+                  child: const Text('Pick a date'),
+                ),
+                
+                CustomHeader(
+                  text: (widget.dueDate == null) ?
+                    'No date picked yet' :
+                    'Selected due date: ${widget.dueDate}',
+                  size: 3
+                ),
+              ],
+            ),
+          ),
+
+          // submit button
+          ElevatedButton(
+            onPressed: (){
+              // navigate to next page after saving
+              if(_formKey.currentState!.validate()){
+                _formKey.currentState!.save();
+                print('Submitted last page');
+                print(widget.formHandler.formInput);
+              }
+            },
+            child: const Text('Submit'),
+          ),
+        ],
+      ),
     );
   }
 }
