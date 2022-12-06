@@ -105,10 +105,11 @@ List<Widget> infoCards(Assessment assessment, context){
               size: 1,
             ),
             CustomSubHeading(
-              text: (assessment.graded) ? 'Final Grade: ${assessment.finalGrade}%':'submit grade',
+              text: (assessment.graded) ? 
+                'Final Grade: ${assessment.finalGrade}%' :
+                'submit grade',
               size: 3,
             )
-
           ],
         )
       ),

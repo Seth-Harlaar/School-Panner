@@ -43,7 +43,6 @@ class Course {
         weight += assess.weight;
       }
     }
-
     // avg
     curGrade = points/weight;
     // abs

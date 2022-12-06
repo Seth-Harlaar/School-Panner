@@ -13,7 +13,7 @@ class ViewCourseContent extends StatelessWidget {
     
     return Column(
       children: [
-        ViewCoursePageHeader(courseTitle: course.title, courseCode: course.courseCode),
+        ViewCoursePageHeader(courseTitle: course.title, courseCode: course.courseCode, curGrade: course.curGrade, absGrade: course.absGrade),
 
         ViewCoursePageAssessSummary(ungradedAssessmentCount: 0, gradedAssessmentCount: 0, courseId: course.id),
 

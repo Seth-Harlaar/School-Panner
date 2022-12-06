@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:school_planner/database_controller.dart';
 import 'package:school_planner/models/course.dart';
 import 'package:school_planner/widgets/app_bar.dart';
-import 'package:school_planner/widgets/view_course_content.dart';
+import 'package:school_planner/widgets/view_course_page_widgets/view_course_page_content.dart';
 
 
 class ViewCoursePage extends StatefulWidget {
