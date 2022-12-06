@@ -53,9 +53,11 @@ class FormHandler {
         dueDate: formInput['date'],
       );
 
+      print(newAssessment);
+
       // then store new assessment in the appropriate course via the database controller
-      final db = DbController();
-      db.saveAssessment(newAssessment, courseId);
+      // final db = DbController();
+      // db.saveAssessment(newAssessment, courseId);
     }
   }
 

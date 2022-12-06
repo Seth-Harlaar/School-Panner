@@ -8,6 +8,7 @@ class NewAssessmentPageTabs extends StatelessWidget {
   final int selectedTab;
   final void Function(int) updateTabSelection;
 
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -28,6 +29,8 @@ class NewAssessmentPageTabs extends StatelessWidget {
   }
 
   Widget _tabBuilder(bool selected, int tabIndex, BuildContext context){
+    final List<String> tabNames = ['Description', 'Details', 'Due Date'];
+
     return Expanded(
       flex: (selected ? 4:3),
       child: GestureDetector(
@@ -54,7 +57,7 @@ class NewAssessmentPageTabs extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: (selected? 15: 10)),
               child: Center(
-                child: Text('Description')
+                child: Text(tabNames[tabIndex])
               ),
             ),
           ),

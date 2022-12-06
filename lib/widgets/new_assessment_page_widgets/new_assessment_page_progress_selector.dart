@@ -5,9 +5,10 @@ import 'package:school_planner/models/assessment.dart';
 
 
 class NewAssessmentPageProgressSelector extends StatefulWidget {
-  const NewAssessmentPageProgressSelector({super.key, required this.formHandler});
+  const NewAssessmentPageProgressSelector({super.key, required this.formHandler, required this.updateVisibilityFunction});
 
   final FormHandler formHandler;
+  final void Function(bool) updateVisibilityFunction;
 
   @override
   State<NewAssessmentPageProgressSelector> createState() => _NewAssessmentPageProgressSelectorState();
@@ -41,6 +42,11 @@ class _NewAssessmentPageProgressSelectorState extends State<NewAssessmentPagePro
           setState(() {
             selectedStatus = AssessmentStatus.values[buttonIndex];
             widget.formHandler.formInput['status'] = selectedStatus;
+            
+            // update final grade visibility field
+            AssessmentStatus.values[buttonIndex] == AssessmentStatus.finished ? 
+              widget.updateVisibilityFunction(true) :
+              widget.updateVisibilityFunction(false);
           });
         }
       },
