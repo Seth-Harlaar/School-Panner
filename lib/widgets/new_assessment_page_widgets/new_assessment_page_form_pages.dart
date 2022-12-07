@@ -11,8 +11,6 @@ import 'package:school_planner/widgets/new_assessment_page_widgets/new_assessmen
 class NewAssessmentFormPages extends StatefulWidget {
   const NewAssessmentFormPages({super.key});
 
-  // define tab state change function
-
   @override
   State<NewAssessmentFormPages> createState() => _NewAssessmentFormPagesState();
 }
@@ -101,7 +99,7 @@ class _NewAssessmentFormPagesState extends State<NewAssessmentFormPages> {
 
 
 
-
+// first page
 class FormDescriptionPage extends StatefulWidget {
   const FormDescriptionPage({super.key, required this.formHandler});
 
@@ -210,7 +208,7 @@ class _FormDescriptionPageState extends State<FormDescriptionPage> {
 
 
 
-
+// second page
 class FormDetailsPage extends StatefulWidget {
   const FormDetailsPage({super.key, required this.formHandler});
   
@@ -321,7 +319,7 @@ class _FormDetailsPageState extends State<FormDetailsPage> {
 
 
 
-
+// third page
 class FormDueDatePage extends StatefulWidget {
   const FormDueDatePage({super.key, required this.formHandler, required this.dueDateCallback, this.dueDate});
 

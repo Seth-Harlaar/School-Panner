@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:school_planner/pages/layouts/home_layout.dart';
 import 'package:school_planner/pages/layouts/home_medium_layout.dart';
+import 'package:school_planner/state_controller.dart';
+import 'package:school_planner/widgets/nav_bar.dart';
 
 
 
@@ -26,7 +28,9 @@ class HomePage extends StatelessWidget {
             }
           },
         ),
-      )
+      ),
+
+      bottomNavigationBar: const NaVBar(),
     );
   }
 }

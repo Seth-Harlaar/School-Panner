@@ -45,7 +45,8 @@ class ViewAssessmentPageInfo extends StatelessWidget {
         child: GridView.count(
           childAspectRatio: 2,
           crossAxisCount: 2,
-    
+
+        
           children: infoCards(assessment, context),
         ),
     

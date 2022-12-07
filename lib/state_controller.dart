@@ -27,18 +27,18 @@ class AppState extends State<AppStateContainer> {
   // *** data variables ***
   Student student = Student();
 
-  // store primary/secondary/tertiary colors here
-
   // store average grade and number of courses in here
+
+  // navbar current page
+  List<String> navLocationRoutes = ['/homepage', '/newCoursePage', '/addNewRoute', '/settings'];
+  NavLocation curLocation = NavLocation.home;
 
   @override 
   void initState(){
     super.initState();
 
-    print('\n***reading student***\n');
-    
+    // read state info from file    
     PersistanceController.readState().then((readData) {
-      print('\n***finished reading***\n');
       student = Student.fromJson(jsonDecode(readData));
       print('\n***loaded student from read***\n');
     });
@@ -53,16 +53,17 @@ class AppState extends State<AppStateContainer> {
   }
 
   // *** data methods ***
+  // make serialization method
 
   // update student name
   void updateStudentName(String inputStudentName){
     // make a copy of the student with new name - keep other values same
-    // Student newStudent = Student(programName: 'asdf', studentName: inputStudentName, currentYear: 1);
-
     setState((() => student = Student(programName: student.program, studentName: inputStudentName, currentYear: student.year)));
   }
 
-  // make serialization method
+  void updateCurrentLocation(int navIndex){
+    setState(() => curLocation = NavLocation.values[navIndex] );
+  }
 
 }
 
@@ -80,3 +81,6 @@ class _AppStoreContainer extends InheritedWidget {
   bool updateShouldNotify(_AppStoreContainer oldWidget) => true;
 }
 
+
+
+enum NavLocation {home, custom, add, settings}

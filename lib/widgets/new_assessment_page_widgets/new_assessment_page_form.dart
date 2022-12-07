@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:school_planner/form_handler.dart';
-import 'package:school_planner/widgets/assets/assets.dart';
-import 'package:school_planner/widgets/new_assessment_page_widgets/new_assessment_page_progress_selector.dart';
-import 'package:school_planner/widgets/new_assessment_page_widgets/new_assessment_page_tabs.dart';
 import 'package:school_planner/widgets/new_assessment_page_widgets/new_assessment_page_widgets.dart';
 
 class NewAssessmentForm extends StatefulWidget {
@@ -23,7 +20,6 @@ class _NewAssessmentFormState extends State<NewAssessmentForm> {
     final courseForm = FormHandler(formInput: {});
     courseForm.formInput['date'] = null;
 
-    return 
-      NewAssessmentFormPages();
-    }
+    return const NewAssessmentFormPages();
+  }
 }

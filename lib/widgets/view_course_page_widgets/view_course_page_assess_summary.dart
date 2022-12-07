@@ -17,6 +17,10 @@ class ViewCoursePageAssessSummary extends StatelessWidget {
 
       child: Row(
         children: [
+
+          // todo: change to filtering boxes
+
+          // ungraded box
           Expanded(
             child: LargeSecondaryCard(
               child: Column(
@@ -69,6 +73,7 @@ class ViewCoursePageAssessSummary extends StatelessWidget {
 
           const SizedBox(width: 15),
 
+          // graded box
           Expanded(
             child: LargePrimaryCard(
               child: Column(
