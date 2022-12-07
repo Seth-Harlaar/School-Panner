@@ -24,54 +24,57 @@ class _NewAssessmentPageTypeSelectorState extends State<NewAssessmentPageTypeSel
   }
 
   // for building the list of buttons
-  Widget _buttonListBuilder(BuildContext context, int buttonIndex){
-    
-    if(buttonIndex == selectedAssessType.index ){
-      return _buttonBuilder(true, buttonIndex);
-    } else {
-      return _buttonBuilder(false, buttonIndex);
+  List<Widget> _buttonListBuilder(){
+    // if(buttonIndex == selectedAssessType.index ){
+    //   return _buttonBuilder(true, buttonIndex);
+    // } else {
+    //   return _buttonBuilder(false, buttonIndex);
+    // }
+
+    List<Widget> buttonList = [];
+
+    for(var i = 0; i < 3; i++){
+      buttonList.add(_buttonBuilder(i == selectedAssessType.index? true : false, i));
+      if( i != 2){
+        buttonList.add(const SizedBox(width: 10,));
+      }
     }
+    return buttonList;
   }
 
   // for building selected/unselected buttons
   Widget _buttonBuilder(bool highlight, int buttonIndex){
-    return ElevatedButton(
-      onPressed: (){
-        if(!highlight){
-          setState(() {
-            selectedAssessType = AssessmentType.values[buttonIndex];
-            widget.formHandler.formInput['type'] = selectedAssessType;
-          });
-        }
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: highlight? const Color(0xFFC20430) : const Color(0xFF3D3D3D),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(7)
-        )
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(0),
-        child:  Text(
+    return Expanded(
+      child: TextButton(
+        onPressed: (){
+          if(!highlight){
+            setState(() {
+              selectedAssessType = AssessmentType.values[buttonIndex];
+              widget.formHandler.formInput['type'] = selectedAssessType;
+            });
+          }
+        },
+        style: TextButton.styleFrom(
+          backgroundColor: highlight? const Color(0xFFC20430) : const Color(0xFF1F1F1F),
+        ),
+        child: Text(
           AssessmentType.values[buttonIndex].name,
-          style: const TextStyle( fontSize: 15 ),
+          style: TextStyle( 
+            fontSize: 13,
+            color: highlight? Colors.white : const Color(0xFFADADAD),
+          ),
         ),
       ),
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 40,
-      child: ListView.separated(
-        separatorBuilder: (context, index) => const SizedBox(width: 15),
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemCount: 3,
-        itemBuilder: _buttonListBuilder
-      ),
+      child: Row(
+        children: _buttonListBuilder(),
+      )
     );
   }
 }

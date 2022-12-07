@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:school_planner/form_handler.dart';
 import 'package:school_planner/models/assessment.dart';
 import 'package:school_planner/widgets/assets/assets.dart';
+import 'package:school_planner/widgets/assets/custom_inputs.dart';
 import 'package:school_planner/widgets/new_assessment_page_widgets/new_assessment_page_widgets.dart';
+
+
+// add persistance of form informatin of page change
 
 class NewAssessmentFormPages extends StatefulWidget {
   const NewAssessmentFormPages({super.key});
@@ -46,39 +50,56 @@ class _NewAssessmentFormPagesState extends State<NewAssessmentFormPages> {
     }
   }
 
-  // void _updateFormValue(String key, dynamic value){
-  //   newAssessmentFormHandler.formInput[key] = value;
-  // }
-
   @override
   Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // tabs above forms - remove clickability
+        NewAssessmentPageTabs(selectedTab: selectedPage, updateTabSelection: _updateSelectedPage),
+        
+        // form pages
+        Expanded(
+          child: Container(
+            decoration: const BoxDecoration(
+              color: Color(0xFF3D3D3D),
+              borderRadius: BorderRadius.only(bottomRight: Radius.circular(7), bottomLeft: Radius.circular(7)),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(0),
 
-    
-
-    return Expanded(
-      child: Column(
-        children: [
-          NewAssessmentPageTabs(selectedTab: selectedPage, updateTabSelection: _updateSelectedPage),
-          Expanded(
-            child: PageView(
-              controller: pageController,
-              onPageChanged: (pageIndex){
-                setState(() {
-                  selectedPage = pageIndex;
-                });
-              },
-              children: [
-                FormDescriptionPage(formHandler: newAssessmentFormHandler),
-                FormDetailsPage(formHandler: newAssessmentFormHandler),
-                FormDueDatePage(formHandler: newAssessmentFormHandler, dueDateCallback: _updateDueDate, dueDate: dueDate),
-              ],
+              child: PageView(
+                controller: pageController,
+                onPageChanged: (pageIndex){
+                  setState(() {
+                    selectedPage = pageIndex;
+                  });
+                },
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: FormDescriptionPage(formHandler: newAssessmentFormHandler),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: FormDetailsPage(formHandler: newAssessmentFormHandler),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: FormDueDatePage(formHandler: newAssessmentFormHandler, dueDateCallback: _updateDueDate, dueDate: dueDate),
+                  ),
+                ],
+              ),
             ),
           ),
-        ],
-      ),
+        ),
+
+      ],
     );
   }
 }
+
+
+
 
 
 class FormDescriptionPage extends StatefulWidget {
@@ -109,13 +130,13 @@ class _FormDescriptionPageState extends State<FormDescriptionPage> {
 
                 // title field
                 const SizedBox(height: 25),
-                const Text('Title'),
+                const CustomHeader(
+                  size: 3,
+                  text: 'Title:'
+                ),
+                const SizedBox(height: 5),
                 TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'Assignment 3',
-                    hintStyle: TextStyle(color: Color(0x99FFFFFF)),
-                    enabledBorder: UnderlineInputBorder( borderSide: BorderSide(color: Colors.white)),
-                  ),
+                  decoration: customFieldDecoration('Assignment 3'),
                   validator: FormHandler.validateTextInput,
                   onSaved:(newValue){
                     if(newValue != null ){
@@ -127,13 +148,14 @@ class _FormDescriptionPageState extends State<FormDescriptionPage> {
                 const SizedBox(height: 25),
           
                 // description field
-                const Text('Description'),
+                const CustomHeader(
+                  size: 3,
+                  text: 'Description:'
+                ),
+                const SizedBox(height: 5),
                 TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'A 1500 word essay about the...',
-                    hintStyle: TextStyle(color: Color(0x99FFFFFF)),
-                    enabledBorder: UnderlineInputBorder( borderSide: BorderSide(color: Colors.white)),
-                  ),
+                  maxLines: 3,
+                  decoration: customFieldDecoration('A 1500 word essay about the...'),
                   validator: FormHandler.validateTextInput,
                   onSaved:(newValue){
                     if(newValue != null ){
@@ -154,22 +176,37 @@ class _FormDescriptionPageState extends State<FormDescriptionPage> {
           ),
 
           // next page 
+
           ElevatedButton(
-              onPressed: (){
-                // navigate to next page after saving
-                if(_formKey.currentState!.validate()){
-                  _formKey.currentState!.save();
-                  print('Submitted first page');
-                  print(widget.formHandler.formInput);
-                }
-              },
-              child: const Text('Next'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFFFC72A),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6)
+              )
             ),
+            onPressed: (){
+              // navigate to next page after saving
+              if(_formKey.currentState!.validate()){
+                _formKey.currentState!.save();
+                // print('Submitted first page');
+                // print(widget.formHandler.formInput);
+              }
+            },
+            child: const Padding(
+              padding:  EdgeInsets.symmetric(horizontal: 5),
+              child:  Text(
+                'Next',
+                style: TextStyle( fontSize: 15 ),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 }
+
+
 
 
 
@@ -209,13 +246,10 @@ class _FormDetailsPageState extends State<FormDetailsPage> {
 
                 // title field
                 const SizedBox(height: 25),
-                const Text('Weight'),
+                const Text('Weight (%):'),
+                const SizedBox(height: 5),
                 TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'Assignment 3',
-                    hintStyle: TextStyle(color: Color(0x99FFFFFF)),
-                    enabledBorder: UnderlineInputBorder( borderSide: BorderSide(color: Colors.white)),
-                  ),
+                  decoration: customFieldDecoration('40'),
                   validator: FormHandler.validateDoubleInput,
                   onSaved:(newValue){
                     if(newValue != null ){
@@ -227,20 +261,19 @@ class _FormDetailsPageState extends State<FormDetailsPage> {
                 const SizedBox(height: 25),
           
                 // progress field
+                const Text('Progress:'),
+                const SizedBox(height: 5),
                 Center(
                   child: NewAssessmentPageProgressSelector(formHandler: widget.formHandler, updateVisibilityFunction: _updateVisibility),
                 ),
                 const SizedBox(height: 25),
 
                 // final grade field
-                const Text('Final Grade'),
+                const Text('Final grade (%):'),
+                const SizedBox(height: 5),
                 TextFormField(
                   enabled: isFinished,
-                  decoration: const InputDecoration(
-                    hintText: '89.5',
-                    hintStyle: TextStyle(color: Color(0x99FFFFFF)),
-                    enabledBorder: UnderlineInputBorder( borderSide: BorderSide(color: Colors.white)),
-                  ),
+                  decoration: customFieldDecoration('89.5'),
                   validator: FormHandler.validateDoubleInput,
                   onSaved:(newValue){
                     if(newValue != null ){
@@ -257,6 +290,12 @@ class _FormDetailsPageState extends State<FormDetailsPage> {
 
           // next page 
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFFFC72A),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6)
+              )
+            ),
             onPressed: (){
               // navigate to next page after saving
               if(_formKey.currentState!.validate()){
@@ -265,13 +304,23 @@ class _FormDetailsPageState extends State<FormDetailsPage> {
                 print(widget.formHandler.formInput);
               }
             },
-            child: const Text('Next'),
+            child: const Padding(
+              padding:  EdgeInsets.symmetric(horizontal: 5),
+              child:  Text(
+                'Next',
+                style: TextStyle( fontSize: 15 ),
+              ),
+            ),
           ),
         ],
       ),
     );
   }
 }
+
+
+
+
 
 class FormDueDatePage extends StatefulWidget {
   const FormDueDatePage({super.key, required this.formHandler, required this.dueDateCallback, this.dueDate});
