@@ -20,6 +20,6 @@ class _NewAssessmentFormState extends State<NewAssessmentForm> {
     final courseForm = FormHandler(formInput: {});
     courseForm.formInput['date'] = null;
 
-    return const NewAssessmentFormPages();
+    return NewAssessmentFormPages(courseId: widget.courseId);
   }
 }

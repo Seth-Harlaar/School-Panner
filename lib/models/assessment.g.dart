@@ -49,13 +49,23 @@ const AssessmentSchema = CollectionSchema(
       name: r'graded',
       type: IsarType.bool,
     ),
-    r'title': PropertySchema(
+    r'importance': PropertySchema(
       id: 6,
+      name: r'importance',
+      type: IsarType.long,
+    ),
+    r'title': PropertySchema(
+      id: 7,
       name: r'title',
       type: IsarType.string,
     ),
+    r'urgency': PropertySchema(
+      id: 8,
+      name: r'urgency',
+      type: IsarType.long,
+    ),
     r'weight': PropertySchema(
-      id: 7,
+      id: 9,
       name: r'weight',
       type: IsarType.long,
     )
@@ -97,8 +107,10 @@ void _assessmentSerialize(
   writer.writeDateTime(offsets[3], object.dueDate);
   writer.writeDouble(offsets[4], object.finalGrade);
   writer.writeBool(offsets[5], object.graded);
-  writer.writeString(offsets[6], object.title);
-  writer.writeLong(offsets[7], object.weight);
+  writer.writeLong(offsets[6], object.importance);
+  writer.writeString(offsets[7], object.title);
+  writer.writeLong(offsets[8], object.urgency);
+  writer.writeLong(offsets[9], object.weight);
 }
 
 Assessment _assessmentDeserialize(
@@ -118,10 +130,12 @@ Assessment _assessmentDeserialize(
     dueDate: reader.readDateTimeOrNull(offsets[3]),
     finalGrade: reader.readDoubleOrNull(offsets[4]) ?? 0,
     graded: reader.readBoolOrNull(offsets[5]) ?? false,
-    title: reader.readString(offsets[6]),
-    weight: reader.readLong(offsets[7]),
+    title: reader.readString(offsets[7]),
+    weight: reader.readLong(offsets[9]),
   );
   object.id = id;
+  object.importance = reader.readLong(offsets[6]);
+  object.urgency = reader.readLong(offsets[8]);
   return object;
 }
 
@@ -149,8 +163,12 @@ P _assessmentDeserializeProp<P>(
     case 5:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     case 6:
-      return (reader.readString(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 7:
+      return (reader.readString(offset)) as P;
+    case 8:
+      return (reader.readLong(offset)) as P;
+    case 9:
       return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -717,6 +735,61 @@ extension AssessmentQueryFilter
     });
   }
 
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition> importanceEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'importance',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition>
+      importanceGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'importance',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition>
+      importanceLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'importance',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition> importanceBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'importance',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Assessment, Assessment, QAfterFilterCondition> titleEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -844,6 +917,60 @@ extension AssessmentQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'title',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition> urgencyEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'urgency',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition>
+      urgencyGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'urgency',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition> urgencyLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'urgency',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition> urgencyBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'urgency',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
@@ -984,6 +1111,18 @@ extension AssessmentQuerySortBy
     });
   }
 
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> sortByImportance() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'importance', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> sortByImportanceDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'importance', Sort.desc);
+    });
+  }
+
   QueryBuilder<Assessment, Assessment, QAfterSortBy> sortByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
@@ -993,6 +1132,18 @@ extension AssessmentQuerySortBy
   QueryBuilder<Assessment, Assessment, QAfterSortBy> sortByTitleDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> sortByUrgency() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'urgency', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> sortByUrgencyDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'urgency', Sort.desc);
     });
   }
 
@@ -1097,6 +1248,18 @@ extension AssessmentQuerySortThenBy
     });
   }
 
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> thenByImportance() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'importance', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> thenByImportanceDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'importance', Sort.desc);
+    });
+  }
+
   QueryBuilder<Assessment, Assessment, QAfterSortBy> thenByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
@@ -1106,6 +1269,18 @@ extension AssessmentQuerySortThenBy
   QueryBuilder<Assessment, Assessment, QAfterSortBy> thenByTitleDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> thenByUrgency() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'urgency', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterSortBy> thenByUrgencyDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'urgency', Sort.desc);
     });
   }
 
@@ -1161,10 +1336,22 @@ extension AssessmentQueryWhereDistinct
     });
   }
 
+  QueryBuilder<Assessment, Assessment, QDistinct> distinctByImportance() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'importance');
+    });
+  }
+
   QueryBuilder<Assessment, Assessment, QDistinct> distinctByTitle(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'title', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QDistinct> distinctByUrgency() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'urgency');
     });
   }
 
@@ -1221,9 +1408,21 @@ extension AssessmentQueryProperty
     });
   }
 
+  QueryBuilder<Assessment, int, QQueryOperations> importanceProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'importance');
+    });
+  }
+
   QueryBuilder<Assessment, String, QQueryOperations> titleProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'title');
+    });
+  }
+
+  QueryBuilder<Assessment, int, QQueryOperations> urgencyProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'urgency');
     });
   }
 

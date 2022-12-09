@@ -29,10 +29,17 @@ class NaVBar extends StatelessWidget {
     List<String> routes = ['/newCoursePage', '/newAssessmentPage' ,'/notesPage'];
     List<String> itemNames = ['Course', 'Assessment', 'Note'];
 
+    // for every form
     for(var i = 0; i < 3; i++){
       items.add(
         GestureDetector(
           onTap:() {
+            // get state and update current page
+            final AppState? appState = AppStateContainer.of(context);
+            if(appState != null){
+              appState.updateCurrentLocation(2);
+            }
+            Navigator.pop(context);
             Navigator.pushNamed(context, routes[i]);
           },
           child: Container(
@@ -66,18 +73,18 @@ class NaVBar extends StatelessWidget {
         GestureDetector(
           onTap:() {
             // open menu to nav to desired form
-            if(i == 2){
-              showDialog(
-                context: context,
-                builder: (_) => _formRouteDialog(context),
-                barrierDismissible: true,
-              );
-            }
-            
             if(appState != null){
-              // udpate cur location
-              appState.updateCurrentLocation(i);
-              Navigator.pushNamed(context, appState.navLocationRoutes[i]);
+              if(i == 2){
+                showDialog(
+                  context: context,
+                  builder: (_) => _formRouteDialog(context),
+                  barrierDismissible: true,
+                );
+              } else {
+                  // udpate cur location
+                  appState.updateCurrentLocation(i);
+                  Navigator.pushNamed(context, appState.navLocationRoutes[i]);
+              }
             }
           },
           child: Container(
@@ -100,7 +107,7 @@ class NaVBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: const Color(0x00FFFFFF),
       height: 60,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

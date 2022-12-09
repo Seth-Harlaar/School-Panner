@@ -60,6 +60,26 @@ class FormHandler {
       // db.saveAssessment(newAssessment, courseId);
     }
   }
+  // new assessment 2
+  void submitAssessment2({required courseId}){
+
+    // save on validate
+    // make a new assessment
+    final newAssessment = Assessment(
+      title: formInput['title'], 
+      description: formInput['description'],
+      weight: int.parse(formInput['weight']),
+      assessmentType: formInput['type'],
+      assessmentStatus: formInput['status'],
+      dueDate: formInput['date'],
+    );
+
+    print(newAssessment);
+
+    // then store new assessment in the appropriate course via the database controller
+    final db = DbController();
+    db.saveAssessment(newAssessment, courseId);
+}
 
 
   // Form updates

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:school_planner/models/assessment.dart';
 import 'package:school_planner/widgets/app_bar.dart';
+import 'package:school_planner/widgets/nav_bar.dart';
 import 'package:school_planner/widgets/view_assessment_page_widgets/view_assessment_page_widgets.dart';
 
 
@@ -30,7 +31,7 @@ class ViewAssessmentPage extends StatelessWidget {
           // {'urg': 0, 'imp': 0, 'dueDate': 'none yet', 'ungraded': true}
           ViewAssessmentPageInfo(assessment: pageAssess),
         ],
-      )
+      ),
     );
   }
 }

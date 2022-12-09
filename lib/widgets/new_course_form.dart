@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:school_planner/form_handler.dart';
 import 'package:school_planner/models/course.dart';
 import 'package:school_planner/widgets/assets/assets.dart';
+import 'package:school_planner/widgets/assets/custom_inputs.dart';
 
 class NewCourseForm extends StatefulWidget {
   const NewCourseForm({super.key});
@@ -28,13 +29,10 @@ class _NewCoursetFormState extends State<NewCourseForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              const CustomHeader( size: 3, text: 'Course Title' ),
+              const CustomHeader( size: 3, text: 'Course title:' ),
+              const SizedBox(height: 5),
               TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Title',
-                  hintStyle: TextStyle(color: Color(0x99FFFFFF)),
-                  enabledBorder: UnderlineInputBorder( borderSide: BorderSide(color: Colors.white)),
-                ),
+                decoration: customFieldDecoration('Introduction to Computer Science'),
                 validator: FormHandler.validateTextInput,
                 onSaved:(newValue){
                   if(newValue != null ){
@@ -45,13 +43,10 @@ class _NewCoursetFormState extends State<NewCourseForm> {
               const SizedBox(height: 25),
               
               
-              const CustomHeader( size: 3, text: 'Course Code' ),
+              const CustomHeader( size: 3, text: 'Course code:' ),
+              const SizedBox(height: 5),
               TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Code',
-                  hintStyle: TextStyle(color: Color(0x99FFFFFF)),
-                  enabledBorder: UnderlineInputBorder( borderSide: BorderSide(color: Colors.white)),
-                ),
+                decoration: customFieldDecoration('CS50'),
                 validator: FormHandler.validateTextInput,
                 onSaved: (newValue) {
                   if(newValue != null ){
@@ -62,13 +57,10 @@ class _NewCoursetFormState extends State<NewCourseForm> {
               const SizedBox(height: 25),
 
 
-              const CustomHeader( size: 3, text: 'Hours Required per Week' ),
+              const CustomHeader( size: 3, text: 'Hours required per week:' ),
+              const SizedBox(height: 5),
               TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Ex: 5',
-                  hintStyle: TextStyle(color: Color(0x99FFFFFF)),
-                  enabledBorder: UnderlineInputBorder( borderSide: BorderSide(color: Colors.white)),
-                ),
+                decoration: customFieldDecoration('12'),
                 validator: FormHandler.validateIntegerInput,
                 onSaved: (newValue) {
                   if(newValue != null ){

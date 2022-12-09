@@ -19,13 +19,13 @@ List<Widget> infoCards(Assessment assessment, context){
         padding: const EdgeInsets.all(10.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          children: const [
-            CustomHeader(
+          children: [
+            const CustomHeader(
               text: 'Urgency',
               size: 1,
             ),
             CustomSubHeading(
-              text: '0',
+              text: '${assessment.urgency}',
               size: 3,
             )
           ],
@@ -43,13 +43,13 @@ List<Widget> infoCards(Assessment assessment, context){
         padding: const EdgeInsets.all(10.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          children: const [
-            CustomHeader(
+          children: [
+            const CustomHeader(
               text: 'Importance',
               size: 1,
             ),
             CustomSubHeading(
-              text: '0',
+              text: '${assessment.importance}',
               size: 3,
             )
           ],

@@ -9,7 +9,9 @@ import 'package:school_planner/widgets/new_assessment_page_widgets/new_assessmen
 // add persistance of form informatin of page change
 
 class NewAssessmentFormPages extends StatefulWidget {
-  const NewAssessmentFormPages({super.key});
+  const NewAssessmentFormPages({super.key, required this.courseId});
+
+  final int courseId;
 
   @override
   State<NewAssessmentFormPages> createState() => _NewAssessmentFormPagesState();
@@ -83,7 +85,7 @@ class _NewAssessmentFormPagesState extends State<NewAssessmentFormPages> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10),
-                    child: FormDueDatePage(formHandler: newAssessmentFormHandler, dueDateCallback: _updateDueDate, dueDate: dueDate),
+                    child: FormDueDatePage(formHandler: newAssessmentFormHandler, dueDateCallback: _updateDueDate, dueDate: dueDate, courseId: widget.courseId,),
                   ),
                 ],
               ),
@@ -127,7 +129,7 @@ class _FormDescriptionPageState extends State<FormDescriptionPage> {
               children: [
 
                 // title field
-                const SizedBox(height: 25),
+                const SizedBox(height: 10),
                 const CustomHeader(
                   size: 3,
                   text: 'Title:'
@@ -243,7 +245,7 @@ class _FormDetailsPageState extends State<FormDetailsPage> {
               children: [
 
                 // title field
-                const SizedBox(height: 25),
+                const SizedBox(height: 10),
                 const Text('Weight (%):'),
                 const SizedBox(height: 5),
                 TextFormField(
@@ -321,8 +323,9 @@ class _FormDetailsPageState extends State<FormDetailsPage> {
 
 // third page
 class FormDueDatePage extends StatefulWidget {
-  const FormDueDatePage({super.key, required this.formHandler, required this.dueDateCallback, this.dueDate});
+  const FormDueDatePage({super.key, required this.formHandler, required this.dueDateCallback, this.dueDate, required this.courseId});
 
+  final int courseId;
   final FormHandler formHandler;
   final void Function(DateTime?) dueDateCallback;
   final DateTime? dueDate;
@@ -381,6 +384,7 @@ class _FormDueDatePageState extends State<FormDueDatePage> {
                 _formKey.currentState!.save();
                 print('Submitted last page');
                 print(widget.formHandler.formInput);
+                widget.formHandler.submitAssessment2(courseId: widget.courseId);
               }
             },
             child: const Text('Submit'),
