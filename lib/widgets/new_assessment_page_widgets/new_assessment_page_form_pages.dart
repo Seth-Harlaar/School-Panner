@@ -77,22 +77,21 @@ class _NewAssessmentFormPagesState extends State<NewAssessmentFormPages> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(10),
-                    child: FormDescriptionPage(formHandler: newAssessmentFormHandler),
+                    child: FormDescriptionPage(formHandler: newAssessmentFormHandler, updatePage: _updateSelectedPage),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10),
-                    child: FormDetailsPage(formHandler: newAssessmentFormHandler),
+                    child: FormDetailsPage(formHandler: newAssessmentFormHandler, updatePage: _updateSelectedPage),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10),
-                    child: FormDueDatePage(formHandler: newAssessmentFormHandler, dueDateCallback: _updateDueDate, dueDate: dueDate, courseId: widget.courseId,),
+                    child: FormDueDatePage(formHandler: newAssessmentFormHandler, dueDateCallback: _updateDueDate, dueDate: dueDate, courseId: widget.courseId),
                   ),
                 ],
               ),
             ),
           ),
         ),
-
       ],
     );
   }
@@ -103,9 +102,11 @@ class _NewAssessmentFormPagesState extends State<NewAssessmentFormPages> {
 
 // first page
 class FormDescriptionPage extends StatefulWidget {
-  const FormDescriptionPage({super.key, required this.formHandler});
+  const FormDescriptionPage({super.key, required this.formHandler, required this.updatePage});
 
   final FormHandler formHandler;
+  final void Function(int) updatePage;
+
 
   @override
   State<FormDescriptionPage> createState() => _FormDescriptionPageState();
@@ -176,7 +177,6 @@ class _FormDescriptionPageState extends State<FormDescriptionPage> {
           ),
 
           // next page 
-
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFFFC72A),
@@ -188,8 +188,7 @@ class _FormDescriptionPageState extends State<FormDescriptionPage> {
               // navigate to next page after saving
               if(_formKey.currentState!.validate()){
                 _formKey.currentState!.save();
-                // print('Submitted first page');
-                // print(widget.formHandler.formInput);
+                widget.updatePage(1);
               }
             },
             child: const Padding(
@@ -212,9 +211,10 @@ class _FormDescriptionPageState extends State<FormDescriptionPage> {
 
 // second page
 class FormDetailsPage extends StatefulWidget {
-  const FormDetailsPage({super.key, required this.formHandler});
+  const FormDetailsPage({super.key, required this.formHandler, required this.updatePage});
   
   final FormHandler formHandler;
+  final void Function(int) updatePage;
 
   @override
   State<FormDetailsPage> createState() => _FormDetailsPageState();
@@ -222,13 +222,15 @@ class FormDetailsPage extends StatefulWidget {
 
 class _FormDetailsPageState extends State<FormDetailsPage> {
   final _formKey = GlobalKey<FormState>();
-
   bool isFinished = false;
+  final finalGradeController = TextEditingController();
 
   void _updateVisibility(bool visible){
     setState(() {
       isFinished = visible;
     });
+    finalGradeController.clear();
+    widget.formHandler.formInput['finalGrade'] = null;
   }
 
   @override
@@ -269,11 +271,16 @@ class _FormDetailsPageState extends State<FormDetailsPage> {
                 const SizedBox(height: 25),
 
                 // final grade field
-                const Text('Final grade (%):'),
+                Text(
+                  'Final grade (%):',
+                  style: TextStyle(
+                    color: isFinished? Colors.white : const Color(0xFF4C4C4C) ),
+                ),
                 const SizedBox(height: 5),
                 TextFormField(
                   enabled: isFinished,
-                  decoration: customFieldDecoration('89.5'),
+                  decoration: customFieldDecoration( isFinished ? '89.5' : '--' ),
+                  controller: finalGradeController,                  
                   validator: FormHandler.validateDoubleInput,
                   onSaved:(newValue){
                     if(newValue != null ){
@@ -300,8 +307,7 @@ class _FormDetailsPageState extends State<FormDetailsPage> {
               // navigate to next page after saving
               if(_formKey.currentState!.validate()){
                 _formKey.currentState!.save();
-                print('Submitted second page');
-                print(widget.formHandler.formInput);
+                widget.updatePage(2); 
               }
             },
             child: const Padding(

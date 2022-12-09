@@ -65,6 +65,10 @@ class AppState extends State<AppStateContainer> {
     setState(() => curLocation = NavLocation.values[navIndex] );
   }
 
+  void updateCustomLocation(String newLocation){
+    setState(() => navLocationRoutes[1] = newLocation);
+  }
+
 }
 
 // a container for the rest of the app

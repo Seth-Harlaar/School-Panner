@@ -24,19 +24,12 @@ class _NewAssessmentPageProgressSelectorState extends State<NewAssessmentPagePro
     widget.formHandler.formInput['status'] = selectedStatus;
   }
 
-  // for building the list of buttons
-  Widget _buttonListBuilder(int buttonIndex){
-    
-    if(buttonIndex == selectedStatus.index ){
-      return _buttonBuilder(true, buttonIndex);
-    } else {
-      return _buttonBuilder(false, buttonIndex);
-    }
-  }
-
   // for building selected/unselected buttons
-  Widget _buttonBuilder(bool highlight, int buttonIndex){
-    return ElevatedButton(
+  Widget _buttonBuilder(int buttonIndex){
+    List<String> buttonTexts = ['Not Started', 'Working on', 'Almost done', 'Finished'];
+
+    bool highlight = selectedStatus.index == buttonIndex;
+    return TextButton(
       onPressed: (){
         if(!highlight){
           setState(() {
@@ -51,7 +44,7 @@ class _NewAssessmentPageProgressSelectorState extends State<NewAssessmentPagePro
         }
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor: highlight? const Color(0xFFC20430) : const Color(0xFF3D3D3D),
+        backgroundColor: highlight? const Color(0xFFC20430) : const Color(0xFF1F1F1F),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(7)
         )
@@ -59,31 +52,40 @@ class _NewAssessmentPageProgressSelectorState extends State<NewAssessmentPagePro
       child: Padding(
         padding: const EdgeInsets.all(0),
         child:  Text(
-          AssessmentStatus.values[buttonIndex].name,
-          style: const TextStyle( fontSize: 15 ),
+          buttonTexts[buttonIndex],
+          style: TextStyle( 
+            fontSize: 13,
+            color: highlight? Colors.white : const Color(0xFFADADAD),
+          ),
         ),
       ),
     );
   }
 
-
-  List<Widget> _buttonListContainer(){
-
-    final buttonList = List<Widget>.generate(
-      4,
-      (i){
-        return _buttonListBuilder(i);
-      }
-    );
-    return buttonList;
-  } 
-  
   @override
   Widget build(BuildContext context){
 
-    return Wrap(
-      alignment: WrapAlignment.spaceAround,
-      children: _buttonListContainer(),
+    return Column(
+      children: [
+        // top row
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [ 
+            Expanded(child: _buttonBuilder(0)),
+            const SizedBox(width: 15),
+            Expanded(child: _buttonBuilder(1)),
+          ],
+        ),
+        // bottom row
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [ 
+            Expanded(child: _buttonBuilder(2)),
+            const SizedBox(width: 15),
+            Expanded(child: _buttonBuilder(3)),
+          ],
+        )
+      ],
     );
   }
 }

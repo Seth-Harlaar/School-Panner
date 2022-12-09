@@ -53,7 +53,7 @@ class FormHandler {
         dueDate: formInput['date'],
       );
 
-      print(newAssessment);
+      // print(newAssessment);
 
       // then store new assessment in the appropriate course via the database controller
       // final db = DbController();
