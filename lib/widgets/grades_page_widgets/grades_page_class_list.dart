@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
 import 'package:school_planner/database_controller.dart';
 import 'package:school_planner/models/course.dart';
 import 'grades_page_widgets.dart';
@@ -15,12 +16,22 @@ class _GradesPageClassListState extends State<GradesPageClassList> {
   late Future<List<Course>> courseList;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     
-    // get required info
     final db = DbController();
     courseList = db.getAllCourses();
+
+    // get required info
+    DbController().dataBase.then((isar){
+      Stream<void> courseChange = isar.courses.watchLazy();
+      courseChange.listen((event) { 
+        print("\n ** Course change");
+        setState(() {
+          courseList = db.getAllCourses();
+        });
+      });
+    });
   }
 
   @override

@@ -24,11 +24,10 @@ class ViewAssessmentPage extends StatelessWidget {
             assessmentType: pageAssess.assessmentType,
           ),
 
-          SizedBox(height: 25),
+          const SizedBox(height: 25),
           ViewAssessmentPageProgressSection(weight: pageAssess.weight, status: pageAssess.assessmentStatus),
 
-          SizedBox(height: 25),
-          // {'urg': 0, 'imp': 0, 'dueDate': 'none yet', 'ungraded': true}
+          const SizedBox(height: 25),
           ViewAssessmentPageInfo(assessment: pageAssess),
         ],
       ),

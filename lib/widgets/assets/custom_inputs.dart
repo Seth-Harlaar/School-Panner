@@ -20,5 +20,8 @@ InputDecoration customFieldDecoration(String hintText){
     errorBorder: const OutlineInputBorder(
       borderSide: BorderSide(width: 2, color: Color(0xFFC20430)),
     ),
+    focusedErrorBorder: const OutlineInputBorder(
+      borderSide: BorderSide(width: 2, color: Color(0xFFC20430)),
+    ),
   );
 }

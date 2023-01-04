@@ -7,7 +7,6 @@ import 'package:school_planner/widgets/new_assessment_page_widgets/new_assessmen
 
 
 // add persistance of form informatin of page change
-
 class NewAssessmentFormPages extends StatefulWidget {
   const NewAssessmentFormPages({super.key, required this.courseId});
 
@@ -26,9 +25,11 @@ class _NewAssessmentFormPagesState extends State<NewAssessmentFormPages> {
   @override
   void initState(){
     super.initState();
-    newAssessmentFormHandler.formInput['date'] = null;
-    newAssessmentFormHandler.formInput['type'] = AssessmentType.assignment;
-    newAssessmentFormHandler.formInput['status'] = AssessmentStatus.notStarted;
+    newAssessmentFormHandler.formInput['date']    = null;
+    newAssessmentFormHandler.formInput['type']    = AssessmentType.assignment;
+    newAssessmentFormHandler.formInput['status']  = AssessmentStatus.notStarted;
+    newAssessmentFormHandler.formInput['graded']  = false;
+    newAssessmentFormHandler.formInput['finalGrade'] = null;
   }
   
   void _updateSelectedPage(int index){
@@ -55,7 +56,7 @@ class _NewAssessmentFormPagesState extends State<NewAssessmentFormPages> {
     return Column(
       children: [
         // tabs above forms - remove clickability
-        NewAssessmentPageTabs(selectedTab: selectedPage, updateTabSelection: _updateSelectedPage),
+        NewAssessmentPageTabs(selectedTab: selectedPage),
         
         // form pages
         Expanded(
@@ -281,9 +282,9 @@ class _FormDetailsPageState extends State<FormDetailsPage> {
                   enabled: isFinished,
                   decoration: customFieldDecoration( isFinished ? '89.5' : '--' ),
                   controller: finalGradeController,                  
-                  validator: FormHandler.validateDoubleInput,
+                  validator: (isFinished)? FormHandler.validateDoubleInput : null,
                   onSaved:(newValue){
-                    if(newValue != null ){
+                    if(newValue != null && isFinished ){
                       widget.formHandler.formInput['finalGrade'] = newValue;
                       // widget.submitFormInput('finalGrade', newValue);
                     }
@@ -391,6 +392,7 @@ class _FormDueDatePageState extends State<FormDueDatePage> {
                 print('Submitted last page');
                 print(widget.formHandler.formInput);
                 widget.formHandler.submitAssessment2(courseId: widget.courseId);
+                Navigator.of(context).pop(context); 
               }
             },
             child: const Text('Submit'),

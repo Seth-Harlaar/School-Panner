@@ -17,7 +17,7 @@ class ViewCourseContent extends StatelessWidget {
 
         ViewCoursePageAssessSummary(ungradedAssessmentCount: 0, gradedAssessmentCount: 0, courseId: course.id),
 
-        ViewCoursePageAssessList(assessList: course.assessment.toList()),
+        ViewCoursePageAssessList(course: course),
       ],
     );
   }

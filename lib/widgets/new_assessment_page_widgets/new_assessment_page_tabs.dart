@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 
 // tab controller for new assessment page
 class NewAssessmentPageTabs extends StatelessWidget {
-  const NewAssessmentPageTabs({super.key, required this.selectedTab, required this.updateTabSelection});
+  const NewAssessmentPageTabs({super.key, required this.selectedTab});
   
   final int selectedTab;
-  final void Function(int) updateTabSelection;
-
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +32,6 @@ class NewAssessmentPageTabs extends StatelessWidget {
     return Expanded(
       flex: (selected ? 4:3),
       child: GestureDetector(
-        onTap: (){
-          updateTabSelection(tabIndex);
-        },
         child: Container(
           decoration: BoxDecoration(
             border: (selected? const Border(
@@ -64,15 +59,5 @@ class NewAssessmentPageTabs extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-
-class MyWidget extends StatelessWidget {
-  const MyWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }

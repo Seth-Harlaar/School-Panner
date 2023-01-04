@@ -9,10 +9,10 @@ class CalenderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(100),
-        child: AppToolBar(),
-      ),
+      // appBar: const PreferredSize(
+      //   preferredSize: Size.fromHeight(50),
+      //   child: AppToolBar(),
+      // ),
 
       body: Column(
         children: [
@@ -28,9 +28,9 @@ class CalenderPage extends StatelessWidget {
 
             child: Column(
               children: const [
-                SizedBox(height: 25,),
+                SizedBox(height: 15),
                 CalenderPageCalenderList(),
-                SizedBox(height: 25,),
+                SizedBox(height: 15),
                 CalenderPageCalenderView(),
                 SizedBox(height: 15,),
               ],

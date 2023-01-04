@@ -128,8 +128,8 @@ Assessment _assessmentDeserialize(
         AssessmentType.lab,
     description: reader.readString(offsets[2]),
     dueDate: reader.readDateTimeOrNull(offsets[3]),
-    finalGrade: reader.readDoubleOrNull(offsets[4]) ?? 0,
-    graded: reader.readBoolOrNull(offsets[5]) ?? false,
+    finalGrade: reader.readDouble(offsets[4]),
+    graded: reader.readBool(offsets[5]),
     title: reader.readString(offsets[7]),
     weight: reader.readLong(offsets[9]),
   );
@@ -159,9 +159,9 @@ P _assessmentDeserializeProp<P>(
     case 3:
       return (reader.readDateTimeOrNull(offset)) as P;
     case 4:
-      return (reader.readDoubleOrNull(offset) ?? 0) as P;
+      return (reader.readDouble(offset)) as P;
     case 5:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
+      return (reader.readBool(offset)) as P;
     case 6:
       return (reader.readLong(offset)) as P;
     case 7:

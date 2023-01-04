@@ -1,15 +1,17 @@
 import 'package:isar/isar.dart';
+import 'package:school_planner/models/event.dart';
 
 part 'assessment.g.dart';
 
 @collection
 class Assessment {
-  Id id = Isar.autoIncrement; // you can also use id = null to auto increment
+  Id id = Isar.autoIncrement;
   
   String title;
   String description;
   int weight;
 
+  // replace with event
   DateTime? dueDate;
 
   double finalGrade;
@@ -23,13 +25,14 @@ class Assessment {
   @enumerated
   AssessmentStatus assessmentStatus;
 
+  final assessment = IsarLink<Event>();
+
 
   // constructor
   Assessment({
-    required this.title, required this.description, required this.weight, 
-    required this.assessmentType, required this.assessmentStatus, required this.dueDate,
-    
-    this.finalGrade = 0, this.graded = false,
+    required this.title,    required this.description,      required this.assessmentType,
+    required this.weight,   required this.assessmentStatus, required this.graded,         required this.finalGrade,
+    required this.dueDate,
   })
     : importance = calculateImportance(weight, graded),
       urgency    = calculateUrgency(dueDate);

@@ -11,9 +11,6 @@ class FormHandler {
   // for storing input key value pairs
   Map<String, dynamic> formInput;
 
-
-
-
   // Form submissions - new items
   // new course
   void submitCourse({required formKey}){
@@ -51,6 +48,8 @@ class FormHandler {
         assessmentType: formInput['type'],
         assessmentStatus: formInput['status'],
         dueDate: formInput['date'],
+        graded:           formInput['graded'],
+        finalGrade:       formInput['finalGrade'] ?? 0,
       );
 
       // print(newAssessment);
@@ -60,18 +59,20 @@ class FormHandler {
       // db.saveAssessment(newAssessment, courseId);
     }
   }
+
   // new assessment 2
   void submitAssessment2({required courseId}){
 
-    // save on validate
     // make a new assessment
     final newAssessment = Assessment(
-      title: formInput['title'], 
-      description: formInput['description'],
-      weight: int.parse(formInput['weight']),
-      assessmentType: formInput['type'],
+      title:            formInput['title'], 
+      description:      formInput['description'],
+      weight:           int.parse(formInput['weight']),
+      assessmentType:   formInput['type'],
       assessmentStatus: formInput['status'],
-      dueDate: formInput['date'],
+      dueDate:          formInput['date'],
+      graded:           formInput['graded'],
+      finalGrade:       double.parse(formInput['finalGrade'] ?? '0'),
     );
 
     print(newAssessment);
@@ -79,7 +80,7 @@ class FormHandler {
     // then store new assessment in the appropriate course via the database controller
     final db = DbController();
     db.saveAssessment(newAssessment, courseId);
-}
+  }
 
 
   // Form updates
@@ -95,9 +96,6 @@ class FormHandler {
     // store grade
     db.saveUpdatedAssessmentGrade(assessmentId: id, finalGrade: inputGrade);
   }
-
-
-
 
 
   // Input validations

@@ -57,6 +57,7 @@ class DbController {
     final db = await dataBase;
 
     final course = await db.courses.where().findAll();
+    final courses = await db.assessments.where().findAll();
     return Future.value(course);
   }
 
@@ -69,10 +70,10 @@ class DbController {
   }
 
   // return all assessments for a course
-  // Future<List<Assessment>> getAllAssessForCourse(Course course) async {
-  //   Future<List<Assessment>> assessments = course.assessment.filter().findAll();
-  //   return assessments;
-  // }
+  Future<List<Assessment>> getAllAssessForCourse(Course course) async {
+    Future<List<Assessment>> assessments = course.assessment.filter().findAll();
+    return assessments;
+  }
 
 
   // * * * Read * * *
