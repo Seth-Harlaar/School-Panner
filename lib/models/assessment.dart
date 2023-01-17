@@ -25,7 +25,7 @@ class Assessment {
   @enumerated
   AssessmentStatus assessmentStatus;
 
-  final assessment = IsarLink<Event>();
+  final event = IsarLink<Event>();
 
 
   // constructor
@@ -36,7 +36,11 @@ class Assessment {
   })
     : importance = calculateImportance(weight, graded),
       urgency    = calculateUrgency(dueDate);
+      // event      = createEvent(dueDate);
 
+
+  // makes an event corresponding to the due date
+  
 
 
   // calculates how important the assessment is based on weight

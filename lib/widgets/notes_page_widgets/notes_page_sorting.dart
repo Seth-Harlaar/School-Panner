@@ -11,7 +11,7 @@ class NotesPageSorting extends StatelessWidget {
     // final AppState? appState = AppStateContainer.of(context);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,6 +23,9 @@ class NotesPageSorting extends StatelessWidget {
             style: TextStyle(
               fontSize: 25,
             )
+          ),
+          const Text(
+           'Note count: none'
           ),
 
           const SizedBox(height:15),
@@ -70,9 +73,7 @@ class NotesPageSorting extends StatelessWidget {
             ),
           ),
           
-          const Text(
-           'Note count: none'
-          )
+          
         ],
       )
     );

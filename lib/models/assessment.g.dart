@@ -76,7 +76,14 @@ const AssessmentSchema = CollectionSchema(
   deserializeProp: _assessmentDeserializeProp,
   idName: r'id',
   indexes: {},
-  links: {},
+  links: {
+    r'event': LinkSchema(
+      id: 4568518694209997431,
+      name: r'event',
+      target: r'Event',
+      single: true,
+    )
+  },
   embeddedSchemas: {},
   getId: _assessmentGetId,
   getLinks: _assessmentGetLinks,
@@ -203,11 +210,12 @@ Id _assessmentGetId(Assessment object) {
 }
 
 List<IsarLinkBase<dynamic>> _assessmentGetLinks(Assessment object) {
-  return [];
+  return [object.event];
 }
 
 void _assessmentAttach(IsarCollection<dynamic> col, Id id, Assessment object) {
   object.id = id;
+  object.event.attach(col, col.isar.collection<Event>(), r'event', id);
 }
 
 extension AssessmentQueryWhereSort
@@ -1033,7 +1041,20 @@ extension AssessmentQueryObject
     on QueryBuilder<Assessment, Assessment, QFilterCondition> {}
 
 extension AssessmentQueryLinks
-    on QueryBuilder<Assessment, Assessment, QFilterCondition> {}
+    on QueryBuilder<Assessment, Assessment, QFilterCondition> {
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition> event(
+      FilterQuery<Event> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'event');
+    });
+  }
+
+  QueryBuilder<Assessment, Assessment, QAfterFilterCondition> eventIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'event', 0, true, 0, true);
+    });
+  }
+}
 
 extension AssessmentQuerySortBy
     on QueryBuilder<Assessment, Assessment, QSortBy> {

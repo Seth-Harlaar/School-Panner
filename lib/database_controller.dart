@@ -76,7 +76,7 @@ class DbController {
   }
 
 
-  // * * * Read * * *
+  // * * * Update * * *
   void saveUpdatedAssessmentGrade({required int assessmentId, required double finalGrade}) async {
     final db = await dataBase;
     final assessment = await db.assessments.get(assessmentId);
@@ -94,6 +94,9 @@ class DbController {
       print('no assessment found');
     }
   }
+
+
+
 
 
   // * * * Setup * * *

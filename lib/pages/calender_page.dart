@@ -9,17 +9,19 @@ class CalenderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: const PreferredSize(
-      //   preferredSize: Size.fromHeight(50),
-      //   child: AppToolBar(),
-      // ),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(50),
+        child: AppToolBar(),
+      ),
+
+      backgroundColor: Color(0xFF3D3D3D),
 
       body: Column(
         children: [
           Container(
 
             decoration: const BoxDecoration(
-              color: Colors.grey,
+              color: Color(0xFF1F1F1F),
               borderRadius: BorderRadius.only(  
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20)
@@ -29,7 +31,7 @@ class CalenderPage extends StatelessWidget {
             child: Column(
               children: const [
                 SizedBox(height: 15),
-                CalenderPageCalenderList(),
+                // CalenderPageCalenderList(),
                 SizedBox(height: 15),
                 CalenderPageCalenderView(),
                 SizedBox(height: 15,),
@@ -42,7 +44,7 @@ class CalenderPage extends StatelessWidget {
               child: Column(
                 children: const [
                   SizedBox(height: 25,),
-                  CalenderPageEventList(),
+                  // CalenderPageEventList(),
                 ],
               ),
             ),

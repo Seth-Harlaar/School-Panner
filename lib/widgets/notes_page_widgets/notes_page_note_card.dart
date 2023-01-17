@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:school_planner/themes.dart';
+import 'package:school_planner/widgets/assets/assets.dart';
 
 
 class NotesPageNoteCard extends StatelessWidget {
@@ -16,40 +17,33 @@ class NotesPageNoteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10.0),
-      child: Card(
-        color: Color(0xFF3D3D3D),
 
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-      
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(6.0),
+      ),
+      color: const Color(0xFF3D3D3D),
 
-              Column(
-                mainAxisSize: MainAxisSize.min,
+      child: ListTile(
+        title: CustomHeader(
+          text: noteTitle,
+          size: 2,
+        ),
+        isThreeLine: true,
 
-                children: [
-                  Text( noteTitle, style: CustomTextStyles.headerTwo ),
-                  Text( sneakPeek, style: CustomTextStyles.subHeading ),
-                ],
-              ),
-      
-              const Spacer( flex: 5),
+        subtitle: Text(
+          sneakPeek,
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
+        ),
 
-              Text(
-                dateWritten,
-                style: const TextStyle(
-                  fontSize: 25,
-                )
-              ),
-      
-      
-            ],
-            
-          )
+        trailing: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              dateWritten
+            )
+          ]
         ),
       ),
     );

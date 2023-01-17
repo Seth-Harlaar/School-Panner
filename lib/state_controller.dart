@@ -25,9 +25,8 @@ class AppStateContainer extends StatefulWidget {
 class AppState extends State<AppStateContainer> {
   
   // *** data variables ***
-  Student student = Student();
-
   // store average grade and number of courses in here
+  Student student = Student();
 
   // navbar current page
   List<String> navLocationRoutes = ['/homepage', '/newCoursePage', '/addNewRoute', '/settings'];
@@ -70,6 +69,8 @@ class AppState extends State<AppStateContainer> {
   }
 
 }
+
+
 
 // a container for the rest of the app
 class _AppStoreContainer extends InheritedWidget {

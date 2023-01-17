@@ -11,6 +11,7 @@ class CalenderPageMonthCalender extends StatefulWidget {
 class _CalenderPageMonthCalenderState extends State<CalenderPageMonthCalender> {
   var _focusedDay = DateTime.now();
   var _selectedDay = DateTime.now();
+  CalendarFormat _calendarFormat = CalendarFormat.month;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,9 @@ class _CalenderPageMonthCalenderState extends State<CalenderPageMonthCalender> {
       onPageChanged: (focusedDay) {
         _focusedDay = focusedDay;
       },
+
+      // styling
+      headerStyle: const HeaderStyle(formatButtonVisible: false, titleCentered: true),
     );
   }
 }
