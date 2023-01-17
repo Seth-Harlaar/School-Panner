@@ -25,3 +25,21 @@ InputDecoration customFieldDecoration(String hintText){
     ),
   );
 }
+
+
+InputDecoration noteTitleDecoration(){
+  return const InputDecoration(
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(width: 2, color: Color(0x00C20430)),
+    ),
+  );
+}
+
+InputDecoration noteBodyDecoration(){
+  return const InputDecoration(
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(width: 2, color: Color(0x00C20430)),
+    ),
+  );
+}
+

@@ -18,7 +18,7 @@ class _GradesPageClassListState extends State<GradesPageClassList> {
   @override
   void initState() {
     super.initState();
-    
+
     final db = DbController();
     courseList = db.getAllCourses();
 
@@ -49,7 +49,11 @@ class _GradesPageClassListState extends State<GradesPageClassList> {
               shrinkWrap: true,
               itemBuilder:(context, index) {
                 final course = snapshot.data?[index];
-                return GradesPageClassCard(course: course);
+                if( course != null ){
+                  return GradesPageClassCard(course: course);
+                } else {
+                  return const Text('Course could not be found');
+                }
               },
             );
             

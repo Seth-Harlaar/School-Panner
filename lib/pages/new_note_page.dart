@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:school_planner/widgets/app_bar.dart';
 import 'package:school_planner/widgets/assets/assets.dart';
+import 'package:school_planner/widgets/nav_bar.dart';
 import 'package:school_planner/widgets/new_note_form.dart';
 
 
@@ -41,6 +42,8 @@ class NewNotePage extends StatelessWidget {
           )
         ],
       ),
+
+      bottomNavigationBar: const NaVBar(),
     );
   }
 }

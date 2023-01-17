@@ -23,7 +23,6 @@ class ViewCoursePageAssessCard extends StatelessWidget {
         );
       },
 
-
       child: LargePrimaryCardNoPadding(
         child: ListTile(
           leading: assessmentIcon(assessment.assessmentType),
@@ -69,59 +68,6 @@ class ViewCoursePageAssessCard extends StatelessWidget {
         ),
       )
 
-
-
-
-      // child: LargePrimaryCard(
-      //   child: Padding(
-      //     padding: const EdgeInsets.only(bottom: 10.0),
-    
-      //     child: Row(
-      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //       children: [
-      //         assessmentIcon(assessment.assessmentType),
-      
-      //         const Spacer(),
-    
-      //         Expanded(
-      //           flex: 5,
-      //           child: Column(
-      //             mainAxisSize: MainAxisSize.min,
-      //             crossAxisAlignment: CrossAxisAlignment.start,
-      //             children: [
-      //               Text( assessment.title, style: CustomTextStyles.headerTwo ),
-      //               Text( 'weight: ${assessment.weight}%', style: CustomTextStyles.subHeading ),
-      //             ],
-      //           ),
-      //         ),
-      
-      //         const Spacer(),
-    
-      //         Expanded(
-      //           flex: 2,
-      //           child: Column(
-      //             mainAxisSize: MainAxisSize.min,
-      //             crossAxisAlignment: CrossAxisAlignment.center,
-      //             children: [
-      //               TinySecondaryCardHollow(
-      //                 child: Text(
-      //                   '${assessment.assessmentType.name}',
-      //                   style: const TextStyle(
-      //                     fontSize: 18,
-      //                   )
-      //                 ),
-      //               ),
-      //               CustomHeader(
-      //                 text: 'asd',
-      //                 size: 3
-      //               )
-      //             ],
-      //           ),
-      //         ),
-      //       ],
-      //     )
-      //   ),
-      // ),
     );
   }
 }

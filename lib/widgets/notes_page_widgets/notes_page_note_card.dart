@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:school_planner/models/note.dart';
-import 'package:school_planner/themes.dart';
+import 'package:school_planner/pages/view_note_page.dart';
 import 'package:school_planner/widgets/assets/assets.dart';
 
 
@@ -16,9 +16,14 @@ class NotesPageNoteCard extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return GestureDetector(
+
       // navigate to clicked on note
       onTap: (){
-
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: ((context) => ViewNotePage(pageNote: note))
+          )
+        );
       },
 
       child: Card(
@@ -32,8 +37,8 @@ class NotesPageNoteCard extends StatelessWidget {
             text: note.title,
             size: 2,
           ),
-          isThreeLine: true,
     
+          isThreeLine: true,
           subtitle: Text(
             note.body,
             maxLines: 3,
