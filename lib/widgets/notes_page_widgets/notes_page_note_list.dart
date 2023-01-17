@@ -1,29 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:school_planner/database_controller.dart';
+import 'package:school_planner/models/note.dart';
 import 'notes_page_widgets.dart';
 
 
-class NotesPageNotesList extends StatelessWidget {
+class NotesPageNotesList extends StatefulWidget {
   const NotesPageNotesList({super.key});
 
-  final List<String> notes = const ['Engineering', 'Philosophy', 'English', 'Chemistry'];
+  @override
+  State<NotesPageNotesList> createState() => _NotesPageNotesListState();
+}
 
+class _NotesPageNotesListState extends State<NotesPageNotesList> {
+  late Future<List<Note>> notesList;
 
-  List<Widget> get notesList {
-    final List<Widget> notesWidgets = [];
-    
-    for (var note in notes){
-      notesWidgets.add(NotesPageNoteCard(noteTitle: note, sneakPeek: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ac mattis lacus, non tempus velit. Nam nibh mi, mattis vitae fringilla non, sodales id dui. Aenean enim tortor, tincidunt sit amet ante nec, eleifend ornare arcu. Vivamus erat magna, tincidunt et scelerisque vel, malesuada sit amet libero. Morbi aliquet leo sapien, in malesuada sem pulvinar ac. Phasellus et tincidunt lectus. Nullam vitae eros a enim dictum consequat. Fusce tortor mauris, fermentum at mattis sit amet, semper semper quam. Interdum et malesuada fames ac ante ipsum primis in faucibus. In dui nunc, semper et lorem vel, pharetra semper tortor. ', dateWritten: '12/12'));
-    }
+  late Stream<void> courseChange;
 
-    return notesWidgets;
+  @override
+  void initState(){
+    super.initState();
+
+    final db = DbController();
+    notesList = db.getAllNotes();
+
+    // get required info
+    db.dataBase.then((isar){
+      courseChange = isar.notes.watchLazy();
+      courseChange.listen((event) { 
+        // print("\n ** Notes change");
+        setState(() {
+          notesList = db.getAllNotes();
+        });
+      });
+    });
   }
 
-  static TextStyle get subHeading {
-    return TextStyle(
-      fontSize: 15,
-      color: Colors.grey[500],
-    );
-  }
+
 
 
   @override
@@ -31,9 +43,31 @@ class NotesPageNotesList extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
 
-      child: Column(
-        children: notesList,
-      )
+      child: FutureBuilder<List<Note>>(
+        future: notesList,
+        
+        builder: (context, snapshot) {
+          if(snapshot.hasData){
+            return ListView.builder(
+              itemCount: snapshot.data?.length,
+              shrinkWrap: true,
+              itemBuilder:(context, index) {
+                final note = snapshot.data?[index];
+                if( note != null ){
+                  return NotesPageNoteCard(note: note);
+                } else {
+                  return const Text('This note could not be rendered');
+                }
+              },
+            );
+            
+          } else if (snapshot.hasError){
+            return Text('Error with future builder: ${snapshot.error}');
+          }
+
+          return const CircularProgressIndicator();
+        }
+      ),
     );
   }
 }

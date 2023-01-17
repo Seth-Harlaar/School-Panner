@@ -17,8 +17,7 @@ class Note {
   // # of chars
   int size;
 
-
   // Constructor
   Note({ required this.title, required this.body, required this.created })
-    : size = title.length;
+    : size = body.length;
 }

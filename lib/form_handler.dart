@@ -2,6 +2,7 @@
 import 'package:school_planner/database_controller.dart';
 import 'package:school_planner/models/assessment.dart';
 import 'package:school_planner/models/course.dart';
+import 'package:school_planner/models/note.dart';
 
 class FormHandler {
   // make new form handler with empty map
@@ -81,6 +82,26 @@ class FormHandler {
     final db = DbController();
     db.saveAssessment(newAssessment, courseId);
   }
+
+  void submitNote({required formKey}){
+    final form = formKey.currentState;
+
+    if( form.validate() ){
+      form.save();
+
+      // make a new note
+      final newNote = Note(
+        title: formInput['title'],
+        body: formInput['body'],
+        created: DateTime.now(),
+      );
+
+      final db = DbController();
+      db.saveNote(newNote);
+    }
+  }
+
+
 
 
   // Form updates

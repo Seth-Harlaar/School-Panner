@@ -1,17 +1,8 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:school_planner/life_cycle_handler.dart';
-import 'package:school_planner/pages/calender_page.dart';
-import 'package:school_planner/pages/grades_page.dart';
-import 'package:school_planner/pages/new_assessment_page.dart';
-import 'package:school_planner/pages/new_course_page.dart';
-import 'package:school_planner/pages/new_student_page.dart';
-import 'package:school_planner/pages/notes_page.dart';
-import 'package:school_planner/pages/view_course_page.dart';
 import 'package:school_planner/state_controller.dart';
+import 'package:school_planner/pages/screens.dart';
 import 'package:school_planner/themes.dart';
-// import 'package:school_planner/routes.dart';
-import 'package:school_planner/pages/home_page.dart';
 
 void main() {
   // load data to state
@@ -44,6 +35,7 @@ class MyApp extends StatelessWidget {
             '/newStudentPage'     : (context) => const NewStudentPage(),
             '/newAssessmentPage'  : (context) => const NewAssessmentPage(courseId: 0),
             '/notesPage'          : (context) => const NotesPage(),
+            '/newNotePage'       : (context) => const NewNotePage(),
           }
         ),
       ),

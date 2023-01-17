@@ -9,8 +9,8 @@ import 'package:school_planner/widgets/nav_bar.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  final List<String> sampleTitles = const ['Grades', 'Notes', 'Settings', 'Calendar', 'Charts Page', 'New Course', 'New Student', 'New Assessment'];
-  final List<String> sampleLocations = const['/gradesPage', '/notesPage', 'Settings', '/calenderPage', 'charts', '/newCoursePage', '/newStudentPage', '/newAssessmentPage'];
+  final List<String> sampleTitles = const ['Grades', 'Notes', 'New Note', 'Calendar', 'Charts', 'New Course', 'New Student', 'New Assessment'];
+  final List<String> sampleLocations = const['/gradesPage', '/notesPage', '/newNotePage', '/calenderPage', 'charts', '/newCoursePage', '/newStudentPage', '/newAssessmentPage'];
 
   Widget build(BuildContext context){
     return Scaffold(

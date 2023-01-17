@@ -33,7 +33,7 @@ class NaVBar extends StatelessWidget {
         GestureDetector(
           // tap for immediate navigation
           onTap:() {
-            // open menu to nav to desired form
+            // open menu to nav to desired form - on third one only
             if(appState != null){
               if(i == 2){
                 showDialog(
@@ -99,7 +99,7 @@ class NaVBar extends StatelessWidget {
     List<Widget> items = [];
 
     // item info
-    List<String> routes = ['/newCoursePage', '/newAssessmentPage' ,'/notesPage'];
+    List<String> routes = ['/newCoursePage', '/newAssessmentPage' ,'/newNotePage'];
     List<String> itemNames = ['Course', 'Assessment', 'Note'];
 
     // for every form

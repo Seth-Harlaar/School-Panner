@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:school_planner/state_controller.dart';
 import 'package:school_planner/widgets/app_bar.dart';
+import 'package:school_planner/widgets/nav_bar.dart';
 import 'package:school_planner/widgets/notes_page_widgets/notes_page_widgets.dart';
 
 
@@ -27,6 +28,8 @@ class NotesPage extends StatelessWidget {
           SizedBox(height: 25,),
         ],
       ),
+
+      bottomNavigationBar: const NaVBar(),
     );
   }
 }

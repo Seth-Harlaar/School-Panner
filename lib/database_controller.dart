@@ -1,6 +1,8 @@
 import 'package:isar/isar.dart';
 import 'package:school_planner/models/assessment.dart';
 import 'package:school_planner/models/course.dart';
+import 'package:school_planner/models/note.dart';
+import 'package:school_planner/models/event.dart';
 
 
 
@@ -41,6 +43,13 @@ class DbController {
     });
   }
 
+  void saveNote(Note newNote) async {
+    final db = await dataBase;
+    db.writeTxn(() async {
+      await db.notes.put(newNote);
+    });
+  }
+
 
   // * * * Read * * *
 
@@ -57,7 +66,7 @@ class DbController {
     final db = await dataBase;
 
     final course = await db.courses.where().findAll();
-    final courses = await db.assessments.where().findAll();
+    // final courses = await db.assessments.where().findAll();
     return Future.value(course);
   }
 
@@ -73,6 +82,13 @@ class DbController {
   Future<List<Assessment>> getAllAssessForCourse(Course course) async {
     Future<List<Assessment>> assessments = course.assessment.filter().findAll();
     return assessments;
+  }
+
+  Future<List<Note>> getAllNotes() async {
+    final db = await dataBase;
+    
+    final notes = await db.notes.where().findAll();
+    return Future.value(notes);
   }
 
 
@@ -105,7 +121,7 @@ class DbController {
     // if there are no schemas open open them
     if (Isar.instanceNames.isEmpty) {
       return await Isar.open(
-        [CourseSchema, AssessmentSchema],
+        [CourseSchema, AssessmentSchema, EventSchema, NoteSchema],
         inspector: true,
       );
     }

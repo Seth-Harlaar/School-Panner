@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:school_planner/widgets/app_bar.dart';
 import 'package:school_planner/widgets/calender_page_widgets/calender_page_widgets.dart';
+import 'package:school_planner/widgets/nav_bar.dart';
 
 
 class CalenderPage extends StatelessWidget {
@@ -51,6 +52,8 @@ class CalenderPage extends StatelessWidget {
           )
         ],
       ),
+
+      bottomNavigationBar: const NaVBar(),
     );
   }
 }

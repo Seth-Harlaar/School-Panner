@@ -29,7 +29,7 @@ class AppState extends State<AppStateContainer> {
   Student student = Student();
 
   // navbar current page
-  List<String> navLocationRoutes = ['/homepage', '/newCoursePage', '/addNewRoute', '/settings'];
+  List<String> navLocationRoutes = ['/homepage', '/gradesPage', '/addNewRoute', '/settings'];
   NavLocation curLocation = NavLocation.home;
 
   @override 

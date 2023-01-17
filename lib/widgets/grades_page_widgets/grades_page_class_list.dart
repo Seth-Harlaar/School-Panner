@@ -23,10 +23,10 @@ class _GradesPageClassListState extends State<GradesPageClassList> {
     courseList = db.getAllCourses();
 
     // get required info
-    DbController().dataBase.then((isar){
+    db.dataBase.then((isar){
       Stream<void> courseChange = isar.courses.watchLazy();
       courseChange.listen((event) { 
-        print("\n ** Course change");
+        // print("\n ** Course change");
         setState(() {
           courseList = db.getAllCourses();
         });
