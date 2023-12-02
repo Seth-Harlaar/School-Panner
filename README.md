@@ -1,12 +1,14 @@
 # school_planner [WIP]
 
-Middle stage
+This project shows my journey in cross-platform application development journey using Flutter, driven by a passion for learning Dart—a language blending C-style syntax with object-oriented features and null safety. This initiative reflects a dedicated effort to broaden software development horizons into the realm of app creation.
 
 
-### Curently working on:
-- calender page and events
-- note view page
-- proper sorting
+### Curent state:
+- Currently the app uses Isar to store data locally: https://isar.dev/
+- The user can create **classes** which can be used to keep track of assessments (with options for tests, labs, and assignments) and have their grade calculated based on finished and unfinished assignments
+- Assessments can be made for each class which include details like title, description, type, weight, progress, due date, and final grade
+- The app also features a notes app, which users can use to create new notes to keep track of information or take notes during class, and view old notes that they have created
+
 
 ### Screenshots
 #### Forms
@@ -31,6 +33,7 @@ Middle stage
 
 
 ### End goal features
+This project has a very large scope. I have high hopes and intend to implement the following features:
 - working calender with events
 - list of courses with assessments, grade calculations
 - notes page
